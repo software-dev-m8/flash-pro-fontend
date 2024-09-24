@@ -1,10 +1,10 @@
 # flash-pro-fontend
 ## Requirements
-Flutter SDK: https://flutter.dev/docs/get-started/install
-Dart SDK: Included with Flutter.
-Android Studio Small Phone API 35.
-A physical device or emulator for testing 
-Android emulator using .
+- Flutter SDK: https://flutter.dev/docs/get-started/install
+-Dart SDK: Included with Flutter.
+-Android Studio .
+-A physical device or emulator for testing 
+-Android emulator device using Small Phone API 35 .
 ## Check your Flutter installation and environment by running:
   ```bash
   $ flutter doctor
