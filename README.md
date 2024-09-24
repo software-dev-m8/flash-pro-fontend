@@ -17,7 +17,7 @@ Follow the steps below to install and run the project locally:
   ```
 Navigate to the project folder:
   ```bash
-  $ cd flash-pro-frontend
+  $ cd flash_pro_frontend
   ```
 Run the app: Connect a device or start an emulator, then execute:
   ```bash
