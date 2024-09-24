@@ -6,9 +6,9 @@
   - A physical device or emulator for testing 
   - Android emulator device using Small Phone API 35 .
 ## Check your Flutter installation and environment by running:
-    ```bash
+   ```bash
     $ flutter doctor
-    ```
+   ```
 ## Installation
 
 Follow the steps below to install and run the project locally:
