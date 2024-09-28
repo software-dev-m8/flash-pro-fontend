@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'config/theme.dart';
-import 'edit_profile_page.dart'; // Assuming you are navigating to this page
+import 'edit_profile_page.dart';
 
-class RestaurantManagementPage extends StatelessWidget {  // Renamed from MyApp to RestaurantManagementPage
+class RestaurantManagementPage extends StatelessWidget {
+  const RestaurantManagementPage({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -48,7 +49,7 @@ class RestaurantManagementPage extends StatelessWidget {  // Renamed from MyApp 
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => EditProfilePage()), // Navigates to EditProfilePage
+                  MaterialPageRoute(builder: (context) => const EditProfilePage()),
                 );
               },
             ),
@@ -58,7 +59,7 @@ class RestaurantManagementPage extends StatelessWidget {  // Renamed from MyApp 
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              height: 5, // Thickness of the orange line
+              height: 5,
               decoration: BoxDecoration(
                 color: const Color(0xFFFBC079),
                 boxShadow: [
@@ -66,7 +67,7 @@ class RestaurantManagementPage extends StatelessWidget {  // Renamed from MyApp 
                     color: Colors.black.withOpacity(0.2),
                     spreadRadius: 1,
                     blurRadius: 5,
-                    offset: const Offset(0, 3), // Shadow offset
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),

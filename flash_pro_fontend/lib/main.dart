@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'config/theme.dart';
-import 'restaurant_managment.dart'; // Import the Restaurant Management page here
+import 'restaurant_managment.dart'; 
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: theme(),
-      home: RestaurantManagementPage(), // Set the home to RestaurantManagementPage
+      home: const RestaurantManagementPage(),
     );
   }
 }
