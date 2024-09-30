@@ -73,7 +73,7 @@ class SignUpCustomer extends StatelessWidget {
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.orange[50],
-                            labelText: 'Username',
+                            labelText: 'Full Name',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                               borderSide: BorderSide.none,

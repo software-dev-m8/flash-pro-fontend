@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
+import 'package:flash_pro_fontend/first.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -25,24 +25,37 @@ class Login extends StatelessWidget {
                     bottom: Radius.circular(50),
                   ),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.all(16.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
                   child: Align(
                     alignment: Alignment.topLeft,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.black,
-                        size: 28,
+                    child: GestureDetector(
+                      onTap: () {
+                        // Define the action for back navigation here
+                        runApp(const First());
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white, // Background color of the circle
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(
+                              8.0), // Padding for the circular button
+                          child: const Icon(
+                            Icons.arrow_back,
+                            color: Colors.black,
+                            size: 28,
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
               const SizedBox(height: 40),
-              // Flexible Container to ensure it expands and fills the screen
 
+              // Flexible Container to ensure it expands and fills the screen
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -86,7 +99,7 @@ class Login extends StatelessWidget {
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.orange[50],
-                            labelText: 'Email / username',
+                            labelText: 'Email',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(30),
                               borderSide: BorderSide.none,
@@ -136,32 +149,37 @@ class Login extends StatelessWidget {
                       const SizedBox(height: 20),
 
                       // Log In Button
-                      SizedBox(
-                        width: double.infinity,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              // Log in action
-                            },
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              backgroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
+                      Center(
+                        child: SizedBox(
+                          width: 200,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 32.0),
+                            child: ElevatedButton(
+                              onPressed: () {
+                                // Log in action
+                              },
+                              style: ElevatedButton.styleFrom(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
+                                backgroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30),
+                                ),
+                                side: const BorderSide(color: Colors.orange),
                               ),
-                              side: const BorderSide(color: Colors.orange),
-                            ),
-                            child: const Text(
-                              'LOG IN',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
+                              child: const Text(
+                                'LOG IN',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.black,
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
+
                       const SizedBox(height: 20),
 
                       // Sign In Link

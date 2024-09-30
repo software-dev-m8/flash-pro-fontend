@@ -1,6 +1,8 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flash_pro_fontend/login.dart';
+import 'package:flash_pro_fontend/usertype.dart';
 
 class First extends StatelessWidget {
   const First({super.key});
@@ -23,47 +25,9 @@ class First extends StatelessWidget {
                   // Logo at the top (can be an icon or image)
                   Container(
                     margin: const EdgeInsets.only(bottom: 40.0),
-                    child: Stack(
-                      alignment: Alignment.topCenter,
-                      children: [
-                        // The tag background
-                        Container(
-                          width: 60,
-                          height: 100,
-                          decoration: BoxDecoration(
-                            color: Colors.orange[200],
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        const Positioned(
-                          top: 10,
-                          child: Text(
-                            'F',
-                            style: TextStyle(
-                              fontSize: 40,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        const Positioned(
-                          bottom: 10,
-                          child: Text(
-                            'Pro',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        // Small line at the top of the tag
-                        const Positioned(
-                          top: 0,
-                          child: Icon(Icons.linear_scale, size: 16),
-                        ),
-                      ],
-                    ),
+                    child: Image.asset('access/logo4.png'),
+                    width: 250,
+                    height: 250,
                   ),
 
                   // Main Title Text
@@ -92,7 +56,9 @@ class First extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        runApp(const Usertype());
+                      },
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         backgroundColor: Colors.orange,
@@ -129,7 +95,9 @@ class First extends StatelessWidget {
                   SizedBox(
                     width: double.infinity,
                     child: OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        runApp(const Login());
+                      },
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
