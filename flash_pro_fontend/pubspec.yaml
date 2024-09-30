@@ -63,6 +63,10 @@ flutter:
     - access/logo4.png
     - access/Restaurant customer (1) 1.png
     - access/Restaurant icon 1.png
+    - access/verifymail.png
+    - access/verifymail2.png
+    - access/lock1.png
+    - access/lock2.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
