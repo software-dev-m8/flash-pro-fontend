@@ -1,4 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flash_pro_fontend/signup_customer.dart';
+import 'package:flash_pro_fontend/signup_restaurant.dart';
+import 'package:flash_pro_fontend/login.dart';
+import 'package:flash_pro_fontend/first.dart';
 
 class Usertype extends StatelessWidget {
   const Usertype({super.key});
@@ -24,16 +29,23 @@ class Usertype extends StatelessWidget {
                     bottom: Radius.circular(0),
                   ),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.all(16.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
                   child: Align(
                     alignment: Alignment.topLeft,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white, // Circular back button
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.black,
-                        size: 28,
+                    child: GestureDetector(
+                      onTap: () {
+                        runApp(
+                            const First()); // Navigating back to the First widget
+                      },
+                      child: const CircleAvatar(
+                        backgroundColor: Colors.white,
+                        // Circular back button
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Colors.black,
+                          size: 28,
+                        ),
                       ),
                     ),
                   ),
@@ -71,7 +83,7 @@ class Usertype extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 32.0),
                         child: InkWell(
                           onTap: () {
-                            // Handle customer selection
+                            runApp(const SignUpCustomer());
                           },
                           child: Container(
                             padding: const EdgeInsets.all(20),
@@ -132,6 +144,7 @@ class Usertype extends StatelessWidget {
                         child: InkWell(
                           onTap: () {
                             // Handle restaurant selection
+                            runApp(const SignUpRestaurant());
                           },
                           child: Container(
                             padding: const EdgeInsets.all(20),
@@ -171,9 +184,9 @@ class Usertype extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 20.0),
                         child: RichText(
-                          text: const TextSpan(
+                          text: TextSpan(
                             text: 'Already have account? ',
-                            style: TextStyle(color: Colors.black),
+                            style: const TextStyle(color: Colors.black),
                             children: [
                               TextSpan(
                                 text: 'Log in',
@@ -181,6 +194,10 @@ class Usertype extends StatelessWidget {
                                   color: Colors.orange,
                                   fontWeight: FontWeight.bold,
                                 ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    runApp(const Login());
+                                  },
                               ),
                             ],
                           ),

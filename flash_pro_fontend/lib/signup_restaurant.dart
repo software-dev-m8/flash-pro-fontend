@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flash_pro_fontend/login.dart';
+import 'package:flash_pro_fontend/usertype.dart';
 
 class SignUpRestaurant extends StatelessWidget {
   const SignUpRestaurant({super.key});
@@ -24,16 +27,21 @@ class SignUpRestaurant extends StatelessWidget {
                     bottom: Radius.circular(50),
                   ),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Align(
                     alignment: Alignment.topLeft,
-                    child: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.arrow_back,
-                        color: Colors.black,
-                        size: 28,
+                    child: GestureDetector(
+                      onTap: () {
+                        runApp(const Usertype());
+                      },
+                      child: const CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Colors.black,
+                          size: 28,
+                        ),
                       ),
                     ),
                   ),
@@ -203,16 +211,20 @@ class SignUpRestaurant extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 20.0),
                         child: RichText(
-                          text: const TextSpan(
+                          text: TextSpan(
                             text: "Already have account? ",
-                            style: TextStyle(color: Colors.black),
+                            style: const TextStyle(color: Colors.black),
                             children: [
                               TextSpan(
                                 text: 'Log in',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.orange,
                                   fontWeight: FontWeight.bold,
                                 ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    runApp(const Login());
+                                  },
                               ),
                             ],
                           ),

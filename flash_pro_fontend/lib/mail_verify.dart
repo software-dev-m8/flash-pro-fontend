@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flash_pro_fontend/login.dart';
 
-class CheckMailbox extends StatelessWidget {
-  const CheckMailbox({super.key});
+class MailVerify extends StatelessWidget {
+  const MailVerify({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -10,13 +10,6 @@ class CheckMailbox extends StatelessWidget {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            // Handle back button press
-            runApp(const Login());
-          },
-        ),
       ),
       backgroundColor: Colors.white,
       body: Padding(
@@ -24,20 +17,20 @@ class CheckMailbox extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const SizedBox(height: 20),
+            const SizedBox(height: 40),
             // Envelope icon or image
             Center(
               child: Image.asset(
-                'access/verifymail2.png',
-                height: 120,
-                width: 120,
+                'access/verifymail.png',
+                height: 150,
+                width: 150,
               ),
             ),
             const SizedBox(height: 20),
             // Title
             const Center(
               child: Text(
-                'Check your mailbox',
+                'Verify your email!',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -45,16 +38,16 @@ class CheckMailbox extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 30),
             // Subtitle
-            const Center(
-              child: Text(
-                'We sent you a link to reset password.\nIf you can\'t find the email,\nPlease check your SPAM or junk mail folder',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black54,
-                ),
+            Center(
+              child: RichText(
+                textAlign: TextAlign.center, // Align the text in the center
+                text: const TextSpan(
+                    text:
+                        "To complete your profile and start using\nFlash Pro. You’ll need to verify your email.",
+                    style: TextStyle(color: Colors.black) // Default style
+                    ),
               ),
             ),
             const SizedBox(height: 40),
@@ -65,11 +58,7 @@ class CheckMailbox extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     // Logic for resending the email
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Password reset email sent again.'),
-                      ),
-                    );
+                    runApp(const Login());
                   },
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(
@@ -80,26 +69,8 @@ class CheckMailbox extends StatelessWidget {
                     ),
                   ),
                   child: const Text(
-                    'Send Email Again',
+                    'Verify',
                     style: TextStyle(fontSize: 16, color: Colors.black),
-                  ),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 20),
-            // Back to Log in link
-            Center(
-              child: TextButton(
-                onPressed: () {
-                  runApp(const Login());
-                },
-                child: const Text(
-                  'Back to Log in',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
-                    decoration: TextDecoration.underline,
                   ),
                 ),
               ),

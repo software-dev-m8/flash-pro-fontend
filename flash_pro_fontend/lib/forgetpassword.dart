@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flash_pro_fontend/login.dart';
 
 class ForgotPasswordApp extends StatelessWidget {
+  const ForgotPasswordApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,6 +16,8 @@ class ForgotPasswordApp extends StatelessWidget {
 class ForgotPasswordScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
 
+  ForgotPasswordScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,9 +25,10 @@ class ForgotPasswordScreen extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.white,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             // Handle back button press
+            runApp(const Login());
           },
         ),
       ),
@@ -32,7 +38,7 @@ class ForgotPasswordScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             // Lock Icon
             Center(
               child: Image.asset(
@@ -41,9 +47,9 @@ class ForgotPasswordScreen extends StatelessWidget {
                 width: 150,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             // Title
-            Center(
+            const Center(
               child: Text(
                 'Forgot password?',
                 style: TextStyle(
@@ -53,9 +59,9 @@ class ForgotPasswordScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             // Subtitle
-            Center(
+            const Center(
               child: Text(
                 "Don't worry! Enter your email and we'll send you a password reset link.",
                 textAlign: TextAlign.center,
@@ -65,7 +71,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             // Email Input
             TextField(
               controller: _emailController,
@@ -74,7 +80,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 labelText: 'Email',
                 filled: true,
                 fillColor: const Color(0xE1ECECEC),
-                labelStyle: TextStyle(
+                labelStyle: const TextStyle(
                   color: Colors.black54,
                 ),
                 border: OutlineInputBorder(
@@ -82,7 +88,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             // Send Button
@@ -100,16 +106,17 @@ class ForgotPasswordScreen extends StatelessWidget {
                   );
                 },
                 style: OutlinedButton.styleFrom(
-                  side:
-                      BorderSide(color: Colors.teal, width: 2), // Border color
-                  padding: EdgeInsets.symmetric(vertical: 15),
+                  side: const BorderSide(
+                      color: Colors.teal, width: 2), // Border color
+                  padding: const EdgeInsets.symmetric(vertical: 15),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                child: Text(
+                child: const Text(
                   'Send',
-                  style: TextStyle(
+                  // ignore: unnecessary_const
+                  style: const TextStyle(
                     fontSize: 16,
                     color: Colors.black,
                   ),

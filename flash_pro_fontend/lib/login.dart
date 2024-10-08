@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flash_pro_fontend/first.dart';
+import 'package:flash_pro_fontend/usertype.dart';
+import 'package:flash_pro_fontend/forgetpassword.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -35,14 +38,14 @@ class Login extends StatelessWidget {
                         runApp(const First());
                       },
                       child: Container(
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white, // Background color of the circle
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(
+                        child: const Padding(
+                          padding: EdgeInsets.all(
                               8.0), // Padding for the circular button
-                          child: const Icon(
+                          child: Icon(
                             Icons.arrow_back,
                             color: Colors.black,
                             size: 28,
@@ -135,6 +138,7 @@ class Login extends StatelessWidget {
                           child: TextButton(
                             onPressed: () {
                               // Forgot password action
+                              runApp(const ForgotPasswordApp());
                             },
                             child: const Text(
                               'Forgot password?',
@@ -186,16 +190,20 @@ class Login extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 20.0),
                         child: RichText(
-                          text: const TextSpan(
+                          text: TextSpan(
                             text: "Don't have any account? ",
-                            style: TextStyle(color: Colors.black),
+                            style: const TextStyle(color: Colors.black),
                             children: [
                               TextSpan(
                                 text: 'Sign in',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.orange,
                                   fontWeight: FontWeight.bold,
                                 ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () {
+                                    runApp(const Usertype());
+                                  },
                               ),
                             ],
                           ),

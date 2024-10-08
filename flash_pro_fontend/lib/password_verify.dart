@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flash_pro_fontend/login.dart';
 
-class CheckMailbox extends StatelessWidget {
-  const CheckMailbox({super.key});
+class PasswordVerify extends StatelessWidget {
+  const PasswordVerify({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +47,28 @@ class CheckMailbox extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             // Subtitle
-            const Center(
-              child: Text(
-                'We sent you a link to reset password.\nIf you can\'t find the email,\nPlease check your SPAM or junk mail folder',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.black54,
+            Center(
+              child: RichText(
+                textAlign: TextAlign.center, // Align the text in the center
+                text: const TextSpan(
+                  text:
+                      "We sent you a link to verify your email.\nIf you can’t find the email,\nPlease check your ",
+                  style: TextStyle(color: Colors.black), // Default style
+                  children: [
+                    TextSpan(
+                      text: 'SPAM',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold), // Make SPAM bold
+                    ),
+                    TextSpan(
+                      text: ' or',
+                      style: TextStyle(color: Colors.black), // Default;
+                    ),
+                    TextSpan(
+                      text: '  junk mail folder.',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ],
                 ),
               ),
             ),
