@@ -1,28 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Importing intl for date formatting
+import 'package:intl/intl.dart';
 import 'package:flutter_application_1/restaurant_page.dart';
 
-class MenuCouponDetail extends StatelessWidget {
+class CouponDetail extends StatelessWidget {
   final String restaurantName;
-  final String menuName;
-  final String originalPrice;
+  // final String menuName;
+  // final String originalPrice;
   final String discount;
   final String location;
   final String startDate; // Added start date
   final String endDate; // Added end date
   final String imageUrl;
   final String amount;
+  final String type;
 
-  MenuCouponDetail({
+  CouponDetail({
     required this.restaurantName,
-    required this.menuName,
-    required this.originalPrice,
+    // required this.menuName,
+    // required this.originalPrice,
     required this.discount,
     required this.location,
     required this.startDate, // Include start date in constructor
     required this.endDate, // Include end date in constructor
     required this.imageUrl,
     required this.amount,
+    required this.type,
   });
 
   @override
@@ -31,9 +33,9 @@ class MenuCouponDetail extends StatelessWidget {
     double containerHeight = screenHeight * 0.75;
 
     // Calculate new price from original price and discount
-    double originalPriceValue = double.tryParse(originalPrice.replaceAll(RegExp(r'[^0-9.]'), '')) ?? 0.0; // Clean the input
-    double discountValue = double.tryParse(discount.replaceAll(RegExp(r'[^0-9.]'), '')) ?? 0.0; // Clean the input
-    double newPrice = originalPriceValue - discountValue; // Calculate new price
+    // double originalPriceValue = double.tryParse(originalPrice.replaceAll(RegExp(r'[^0-9.]'), '')) ?? 0.0; // Clean the input
+    // double discountValue = double.tryParse(discount.replaceAll(RegExp(r'[^0-9.]'), '')) ?? 0.0; // Clean the input
+    // double newPrice = originalPriceValue - discountValue; // Calculate new price
 
     // Get today's date
     DateTime today = DateTime.now();
@@ -108,14 +110,14 @@ class MenuCouponDetail extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 5),
-                      Text(
-                        menuName,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
+                      // Text(
+                      //   menuName,
+                      //   style: TextStyle(
+                      //     fontSize: 20,
+                      //     fontWeight: FontWeight.bold,
+                      //     color: Colors.black,
+                      //   ),
+                      // ),
                       SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -123,8 +125,18 @@ class MenuCouponDetail extends StatelessWidget {
                           Icon(Icons.discount, color: Color(0xFF44A9A5)),
                           SizedBox(width: 5),
                           Text(
-                            '$discount Baht',
+                            '$discount',
                             style: TextStyle(fontSize: 20, color: Color(0xFF44A9A5)),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            '$type',
+                            style: TextStyle(fontSize: 18, color: Colors.grey),
                           ),
                         ],
                       ),
@@ -158,46 +170,46 @@ class MenuCouponDetail extends StatelessWidget {
 
                       // Color Boxes
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+                          // Container(
+                          //   width: 110,
+                          //   height: 130,
+                          //   child: Column(
+                          //     mainAxisAlignment: MainAxisAlignment.start,
+                          //     children: [
+                          //       CircleAvatar(
+                          //         radius: 30,
+                          //         backgroundColor: Color(0xFFF0F0F0),
+                          //         child: Icon(Icons.shopping_basket, color: Color(0xFF44A9A5), size: 40),
+                          //       ),
+                          //       SizedBox(height: 15),
+                          //       Row(
+                          //         mainAxisAlignment: MainAxisAlignment.center,
+                          //         children: [
+                          //           Text(
+                          //             'Price: ',
+                          //             style: TextStyle(fontSize: 12, color: Colors.grey),
+                          //           ),
+                          //           // Text(
+                          //           //   '$originalPrice Baht',
+                          //           //   style: TextStyle(
+                          //           //     fontSize: 12,
+                          //           //     color: Colors.grey,
+                          //           //     decoration: TextDecoration.lineThrough,
+                          //           //   ),
+                          //           // ),
+                          //         ],
+                          //       ),
+                          //       // Text(
+                          //       //   '${newPrice.toStringAsFixed(2)} Baht', // Display calculated new price
+                          //       //   style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFFD04040)),
+                          //       // ),
+                          //     ],
+                          //   ),
+                          // ),
                           Container(
-                            width: 110,
-                            height: 130,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                CircleAvatar(
-                                  radius: 30,
-                                  backgroundColor: Color(0xFFF0F0F0),
-                                  child: Icon(Icons.shopping_basket, color: Color(0xFF44A9A5), size: 40),
-                                ),
-                                SizedBox(height: 15),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Price: ',
-                                      style: TextStyle(fontSize: 12, color: Colors.grey),
-                                    ),
-                                    Text(
-                                      '$originalPrice Baht',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey,
-                                        decoration: TextDecoration.lineThrough,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  '${newPrice.toStringAsFixed(2)} Baht', // Display calculated new price
-                                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFFD04040)),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: 110,
+                            width: 125,
                             height: 130,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -216,7 +228,7 @@ class MenuCouponDetail extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            width: 110,
+                            width: 125,
                             height: 130,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
