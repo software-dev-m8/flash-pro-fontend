@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/coupon_detail_before.dart';
 
 class MyCouponsPage extends StatelessWidget {
   @override
@@ -8,14 +9,14 @@ class MyCouponsPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Column(
             children: [
-              _buildVerticalPromotionList([
+              _buildVerticalPromotionList(context, [
                 {
                   'imageUrl': 'https://via.placeholder.com/80',
                   'storeName': 'Store X',
                   'promotionInfo': 'Special offer!',
                   'location': '123 Main St',
-                  'startDate': '2024-12-01T00:00:00',
-                  'endDate': '2024-12-31T23:59:59',
+                  'startDate': '2024-12-01',
+                  'endDate': '2024-12-31',
                   'timeRemaining': '10 days, 5 hours',
                   'type': 'Discount'
                 },
@@ -24,8 +25,8 @@ class MyCouponsPage extends StatelessWidget {
                   'storeName': 'Store Y',
                   'promotionInfo': 'Limited time deal!',
                   'location': '456 Elm St',
-                  'startDate': '2024-11-01T00:00:00',
-                  'endDate': '2024-11-30T23:59:59',
+                  'startDate': '2024-11-01',
+                  'endDate': '2024-11-30',
                   'timeRemaining': '2 days, 3 hours',
                   'type': 'Coupon'
                 },
@@ -35,12 +36,13 @@ class MyCouponsPage extends StatelessWidget {
         ),
       );
 
-  Widget _buildVerticalPromotionList(List<Map<String, String>> promotions) {
+  Widget _buildVerticalPromotionList(BuildContext context, List<Map<String, String>> promotions) {
     return Container(
       margin: EdgeInsets.only(top: 20),
       child: Column(
         children: promotions.map((promotion) {
           return _buildVerticalPromotionCard(
+            context,  // Pass the context here
             imageUrl: promotion['imageUrl']!,
             storeName: promotion['storeName']!,
             promotionDetail: promotion['promotionInfo']!,
@@ -48,14 +50,15 @@ class MyCouponsPage extends StatelessWidget {
             startDate: promotion['startDate']!,
             endDate: promotion['endDate']!,
             timeRemaining: promotion['timeRemaining']!,
-            type: promotion['type']!, // New parameter
+            type: promotion['type']!,
           );
         }).toList(),
       ),
     );
   }
 
-  Widget _buildVerticalPromotionCard({
+  Widget _buildVerticalPromotionCard(
+    BuildContext context, { // Add context as a parameter
     required String imageUrl,
     required String storeName,
     required String promotionDetail,
@@ -63,14 +66,26 @@ class MyCouponsPage extends StatelessWidget {
     required String startDate,
     required String endDate,
     required String timeRemaining,
-    required String type, // New parameter
+    required String type,
   }) {
     final DateTime startDateTime = DateTime.parse(startDate);
     final DateTime endDateTime = DateTime.parse(endDate);
 
     return GestureDetector(
       onTap: () {
-        print('Tapped on $storeName promotion');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CouponDetail(
+              imageUrl: imageUrl,
+              restaurantName: storeName,
+              discount: promotionDetail,
+              location: location,
+              startDate: startDate,
+              endDate: endDate,
+            ),
+          ),
+        );
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 16),
@@ -132,8 +147,8 @@ class MyCouponsPage extends StatelessWidget {
                             ),
                             SizedBox(width: 8), // Small gap between promotionDetail and type
                             Text(
-                              type, // Displaying the 'type' parameter right after promotionDetail
-                              style: TextStyle(fontSize: 16, color: Colors.grey), // Font size 16 and grey color
+                              type,
+                              style: TextStyle(fontSize: 16, color: Colors.grey),
                             ),
                           ],
                         ),
@@ -155,7 +170,7 @@ class MyCouponsPage extends StatelessWidget {
                         Row(
                           children: [
                             Text('Time remaining: $timeRemaining', style: TextStyle(color: Color(0xFFD04040))),
-                            Spacer(), // Pushes the button to the right
+                            Spacer(),
                             OutlinedButton(
                               onPressed: () {},
                               child: Text('Use', style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),

@@ -284,7 +284,8 @@ onPressed: () {
                   child: TextButton(
                     onPressed: () {
                       // Handle agree action
-                      Navigator.of(context).pop(); // Close the dialog
+                      Navigator.of(context).popUntil((route) => route.isFirst); // Go back to the previous page
+                      // Navigator.of(context).pop(); // Close the dialog
                       print('User agreed to the coupon terms');
                     },
                     child: Text(
