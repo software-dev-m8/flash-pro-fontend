@@ -12,10 +12,7 @@ class MultiSelectDropdownExample extends StatefulWidget {
 
 class _MultiSelectDropdownExampleState
     extends State<MultiSelectDropdownExample> {
-  // List of items
   final List<String> _foodItems = ['Beverage, ชานมไข่มุก', 'Dessert', 'Snack'];
-
-  // List to store selected items
   List<String> _selectedItems = [];
 
   @override
@@ -68,8 +65,33 @@ class _MultiSelectDropdownExampleState
   }
 }
 
-class EditProfilePage extends StatelessWidget {
+class Branch {
+  String name;
+  String address;
+  String tel;
+
+  Branch({required this.name, required this.address, required this.tel});
+}
+
+class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
+
+  @override
+  State<EditProfilePage> createState() => _EditProfilePageState();
+}
+
+class _EditProfilePageState extends State<EditProfilePage> {
+  final List<Branch> _branches = [
+    Branch(name: 'Future Park Rangsit', address: 'Address 1', tel: '123456789'),
+    Branch(name: 'Central Westgate', address: 'Address 2', tel: '987654321'),
+    Branch(
+        name: 'โรงอาหารพระเทพ KMITL', address: 'Address 3', tel: '555555555'),
+    Branch(name: 'หอสมุด KMITL', address: 'Address 4', tel: '444444444')
+  ];
+
+  Branch? _selectedBranch;
+  bool _isDropdownOpen = false;
+  bool _isChangePasswordVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +131,7 @@ class EditProfilePage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding:
-                  const EdgeInsets.all(16.0), // Padding just for image and info
+              padding: const EdgeInsets.all(16.0),
               child: Center(
                 child: Column(
                   children: [
@@ -145,7 +166,6 @@ class EditProfilePage extends StatelessWidget {
                 ),
               ),
             ),
-            // const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.only(left: 32, right: 32, top: 10),
               child: Column(
@@ -211,26 +231,7 @@ class EditProfilePage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  // Text("Kind of food",
-                  //     style: Theme.of(context).textTheme.headlineSmall!),
-                  // const SizedBox(height: 6),
                   const MultiSelectDropdownExample(),
-                  // DropdownButtonFormField<String>(
-                  //   value: 'Beverage, ชานมไข่มุก',
-                  //   decoration: InputDecoration(
-                  //     labelStyle: Theme.of(context).textTheme.headlineSmall!,
-                  //     border: const OutlineInputBorder(),
-                  //   ),
-                  //   items: <String>['Beverage, ชานมไข่มุก', 'Dessert', 'Snack']
-                  //       .map<DropdownMenuItem<String>>((String value) {
-                  //     return DropdownMenuItem<String>(
-                  //       value: value,
-                  //       child: Text(value),
-                  //     );
-                  //   }).toList(),
-                  //   onChanged: (String? newValue) {},
-                  // ),
-
                   const SizedBox(height: 10),
                   Text("Branch",
                       style: Theme.of(context).textTheme.headlineSmall!),
@@ -238,54 +239,41 @@ class EditProfilePage extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: DropdownButtonFormField<String>(
-                          value: 'โรงอาหารพระเทพ KMITL',
-                          decoration: InputDecoration(
-                            labelStyle: Theme.of(context)
-                                .textTheme
-                                .headlineSmall!
-                                .copyWith(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                ),
-                            border: OutlineInputBorder(
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _isDropdownOpen = !_isDropdownOpen;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
                               borderRadius: BorderRadius.circular(8.0),
-                              borderSide: const BorderSide(
-                                color: Colors.grey,
-                                width: 2.0,
-                              ),
                             ),
-                            contentPadding: const EdgeInsets.symmetric(
-                                vertical: 10, horizontal: 10),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  _selectedBranch?.name ?? 'Select Branch',
+                                  style: Theme.of(context).textTheme.bodyLarge!,
+                                ),
+                                const Icon(Icons.arrow_drop_down),
+                              ],
+                            ),
                           ),
-                          items: <String>[
-                            'โรงอาหารพระเทพ KMITL',
-                            'Other Branch',
-                            'Robinson',
-                            'Central Westgate',
-                            'Siam'
-                          ].map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (String? newValue) {},
                         ),
                       ),
-                      const SizedBox(width: 25),
+                      const SizedBox(width: 10),
                       Container(
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(8.0),
-                          ),
-                          color: Color(0xFFFBC079),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                          color: const Color(0xFFFBC079),
                           shape: BoxShape.rectangle,
                         ),
                         child: IconButton(
-                          icon: const Icon(Icons.add,
-                              color: Colors.black, size: 30),
+                          icon: const Icon(Icons.add, color: Colors.black),
                           onPressed: () {
                             _showAddBranchDialog(context);
                           },
@@ -293,68 +281,169 @@ class EditProfilePage extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
-                  Center(
-                    child: Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.end, // Align button to the right
-                      children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFFBC079),
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20.0, vertical: 15.0),
-                            textStyle: const TextStyle(fontSize: 18),
-                          ),
-                          onPressed: () {},
-                          child: Text(
-                            'Change password',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall!
-                                .copyWith(color: Colors.white),
-                          ),
-                        ),
-                      ],
+                  if (_isDropdownOpen)
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: _branches.length,
+                        itemBuilder: (context, index) {
+                          final branch = _branches[index];
+                          return ListTile(
+                            title: Text(branch.name),
+                            trailing: IconButton(
+                              icon: const Icon(Icons.delete, color: Colors.red),
+                              onPressed: () {
+                                _showDeleteBranchDialog(context, index);
+                              },
+                            ),
+                            onTap: () {
+                              setState(() {
+                                _selectedBranch = branch;
+                                _isDropdownOpen = false;
+                              });
+                            },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-
                   const SizedBox(height: 20),
-                  Center(
-                    child: Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.end,
-                      children: [
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:
-                                Colors.white,
-                            foregroundColor: Colors.black,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 40.0, vertical: 15.0),
-                            side: const BorderSide(
-                                color: Color(0xFFFBC079),
-                                width: 2),
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(40.0),
+                  // Change Password Section
+                  if (_isChangePasswordVisible) ...[
+                    Center(
+                      child: Row(
+                        mainAxisAlignment:
+                            MainAxisAlignment.end, // Align button to the right
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFFFBC079),
+                              foregroundColor: Colors.white,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20.0, vertical: 15.0),
+                              textStyle: const TextStyle(fontSize: 18),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _isChangePasswordVisible = false;
+                              });
+                            },
+                            child: Text(
+                              'Change password',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(color: Colors.white),
                             ),
                           ),
-                          onPressed: () {},
-                          child: Text(
-                            'Save',
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall!
-                                .copyWith(
-                                    color: Colors
-                                        .black),
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 20),
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              foregroundColor: Colors.black,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 40.0, vertical: 15.0),
+                              side: const BorderSide(
+                                  color: Color(0xFFFBC079), width: 2),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40.0),
+                              ),
+                            ),
+                            onPressed: () {},
+                            child: Text(
+                              'Save',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(color: Colors.black),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ] else ...[
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Password",
+                            style: Theme.of(context).textTheme.headlineSmall!,
+                          ),
+                          const SizedBox(height: 6),
+                          TextFormField(
+                            obscureText: true,
+                            style: Theme.of(context).textTheme.bodyLarge!,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(
+                                gapPadding: 100.0,
+                              ),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 4.0, horizontal: 10.0),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            "New password",
+                            style: Theme.of(context).textTheme.headlineSmall!,
+                          ),
+                          const SizedBox(height: 6),
+                          TextFormField(
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 4.0, horizontal: 10.0),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            "Confirm password",
+                            style: Theme.of(context).textTheme.headlineSmall!,
+                          ),
+                          const SizedBox(height: 6),
+                          TextFormField(
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 4.0, horizontal: 10.0),
+                            ),
+                          ),
+                          const SizedBox(height: 20),
+                          Center(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                foregroundColor: Colors.black,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 40.0, vertical: 15.0),
+                                side: const BorderSide(
+                                    color: Color(0xFFFBC079), width: 2),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40.0),
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _isChangePasswordVisible = true;
+                                });
+                              },
+                              child: const Text('Save password'),
+                            ),
+                          ),
+                        ],
+                      ),
+                  ],
                   const SizedBox(height: 20),
                 ],
               ),
@@ -365,8 +454,84 @@ class EditProfilePage extends StatelessWidget {
     );
   }
 
+  void _showDeleteBranchDialog(BuildContext context, int index) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Center(
+          child: AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            title: const Text(
+              'Are you sure to Delete?',
+              style: TextStyle(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            content: const Text(
+              "You can't restore it",
+              style: TextStyle(color: Colors.grey),
+              textAlign: TextAlign.center,
+            ),
+            contentPadding: const EdgeInsets.only(
+              top: 10.0,
+              left: 24.0,
+              right: 24.0,
+              bottom: 10.0,
+            ),
+            actionsAlignment: MainAxisAlignment.center,
+            actions: <Widget>[
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _branches.removeAt(index);
+                      });
+                      Navigator.of(context).pop();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(255, 215, 81, 71),
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 6.0,
+                        horizontal: 75.0,
+                      ),
+                    ),
+                    child: const Text('Delete', style: TextStyle(fontSize: 16)),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 6.0,
+                        horizontal: 75.0,
+                      ),
+                    ),
+                    child: const Text('Cancel', style: TextStyle(fontSize: 16)),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   void _showAddBranchDialog(BuildContext context) {
-    // Create controllers to capture input from text fields
     final branchNameController = TextEditingController();
     final addressController = TextEditingController();
     final telController = TextEditingController();
@@ -375,11 +540,22 @@ class EditProfilePage extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20.0),
+          titlePadding: const EdgeInsets.only(top: 20.0),
           title: Stack(
             children: [
               const Align(
-                alignment: Alignment.center, // Center the title text
-                child: Text('Add new branch'),
+                alignment: Alignment.center,
+                child: Text(
+                  'Add new branch',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               Positioned(
                 right: -10,
@@ -387,60 +563,50 @@ class EditProfilePage extends StatelessWidget {
                 child: IconButton(
                   icon: const Icon(Icons.clear),
                   onPressed: () {
-                    Navigator.of(context).pop(); // Close the dialog
+                    Navigator.of(context).pop();
                   },
                 ),
               ),
             ],
           ),
-          content: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize
-                  .min, // Makes the column take only necessary space
-              children: <Widget>[
-                Text("Branch",
-                    style: Theme.of(context).textTheme.headlineSmall!),
-                const SizedBox(height: 6),
-                TextFormField(
-                  controller:
-                      branchNameController, // Added controller to save input
-                  style: Theme.of(context).textTheme.bodyLarge!,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0),
-                  ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const Text("Branch name"),
+              const SizedBox(height: 6),
+              TextFormField(
+                controller: branchNameController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 12.0, horizontal: 10.0),
                 ),
-                const SizedBox(height: 10),
-                Text("Address",
-                    style: Theme.of(context).textTheme.headlineSmall!),
-                const SizedBox(height: 6),
-                TextFormField(
-                  controller: addressController,
-                  maxLines: null,
-                  minLines: 4,
-                  style: Theme.of(context).textTheme.bodyLarge!,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                  ),
+              ),
+              const SizedBox(height: 12),
+              const Text("Address"),
+              const SizedBox(height: 6),
+              TextFormField(
+                controller: addressController,
+                maxLines: 3,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 12.0, horizontal: 10.0),
                 ),
-                const SizedBox(height: 10),
-                Text("Tel.", style: Theme.of(context).textTheme.headlineSmall!),
-                const SizedBox(height: 6),
-                TextFormField(
-                  controller: telController,
-                  style: Theme.of(context).textTheme.bodyLarge!,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 4.0, horizontal: 10.0),
-                  ),
+              ),
+              const SizedBox(height: 12),
+              const Text("Tel."),
+              const SizedBox(height: 6),
+              TextFormField(
+                controller: telController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 12.0, horizontal: 10.0),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
           actions: <Widget>[
             Center(
@@ -448,15 +614,23 @@ class EditProfilePage extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFFFBC079),
                   foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 30.0, vertical: 5.0),
+                      horizontal: 60.0, vertical: 12.0),
                   textStyle: const TextStyle(fontSize: 18),
                 ),
-                child: const Text('        Save        '),
+                child: const Text('Save'),
                 onPressed: () {
-                  print('Branch name: ${branchNameController.text}');
-                  print('Address: ${addressController.text}');
-                  print('Tel: ${telController.text}');
+                  setState(() {
+                    if (branchNameController.text.isNotEmpty) {
+                      _branches.add(Branch(
+                          name: branchNameController.text,
+                          address: addressController.text,
+                          tel: telController.text));
+                    }
+                  });
                   Navigator.of(context).pop();
                 },
               ),

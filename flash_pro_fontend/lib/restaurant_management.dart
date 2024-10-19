@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'config/theme.dart';
 import 'edit_profile_page.dart';
+import 'coupon_management.dart';
 
 class RestaurantManagementPage extends StatelessWidget {
   const RestaurantManagementPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -49,7 +51,8 @@ class RestaurantManagementPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const EditProfilePage()),
+                  MaterialPageRoute(
+                      builder: (context) => const EditProfilePage()),
                 );
               },
             ),
@@ -80,8 +83,20 @@ class RestaurantManagementPage extends StatelessWidget {
                     .bodyMedium!
                     .copyWith(color: Colors.black, fontWeight: FontWeight.w900),
               ),
-              trailing: const Icon(Icons.arrow_forward_ios),
-              onTap: () {},
+              trailing: IconButton(
+                icon: const Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.black,
+                  size: 30,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CouponManagementPage()),
+                  );
+                },
+              ),
             ),
             const Divider(),
             ListTile(

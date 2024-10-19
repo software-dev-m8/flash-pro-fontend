@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'config/theme.dart';
-import 'restaurant_managment.dart'; 
+import 'restaurant_management.dart'; 
 
 void main() {
   runApp(const MyApp());
