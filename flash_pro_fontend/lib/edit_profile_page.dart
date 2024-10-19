@@ -97,6 +97,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         toolbarHeight: 75,
         titleSpacing: 0,
         title: Text(
@@ -110,26 +111,30 @@ class _EditProfilePageState extends State<EditProfilePage> {
             Navigator.pop(context);
           },
         ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(5.0),
+          child: Container(
+            width: double.infinity,
+            height: 5,
+            decoration: BoxDecoration(
+              color: const Color(0xFFFBC079),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2),
+                  spreadRadius: 1,
+                  blurRadius: 5,
+                  offset: const Offset(0, 3),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: double.infinity,
-              height: 5,
-              decoration: BoxDecoration(
-                color: const Color(0xFFFBC079),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
-                    spreadRadius: 1,
-                    blurRadius: 5,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-            ),
+            
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Center(

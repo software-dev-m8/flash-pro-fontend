@@ -87,13 +87,12 @@ class RestaurantManagementPage extends StatelessWidget {
                 icon: const Icon(
                   Icons.arrow_forward_ios,
                   color: Colors.black,
-                  size: 30,
                 ),
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const CouponManagementPage()),
+                        builder: (context) => CouponManagementPage()),
                   );
                 },
               ),
