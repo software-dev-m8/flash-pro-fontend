@@ -134,7 +134,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Center(
@@ -310,6 +309,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 _selectedBranch = branch;
                                 _isDropdownOpen = false;
                               });
+                              _showBranchInfoDialog(context, branch);
                             },
                           );
                         },
@@ -377,77 +377,77 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       ),
                     ),
                   ] else ...[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Password",
-                            style: Theme.of(context).textTheme.headlineSmall!,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Password",
+                          style: Theme.of(context).textTheme.headlineSmall!,
+                        ),
+                        const SizedBox(height: 6),
+                        TextFormField(
+                          obscureText: true,
+                          style: Theme.of(context).textTheme.bodyLarge!,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              gapPadding: 100.0,
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 4.0, horizontal: 10.0),
                           ),
-                          const SizedBox(height: 6),
-                          TextFormField(
-                            obscureText: true,
-                            style: Theme.of(context).textTheme.bodyLarge!,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(
-                                gapPadding: 100.0,
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          "New password",
+                          style: Theme.of(context).textTheme.headlineSmall!,
+                        ),
+                        const SizedBox(height: 6),
+                        TextFormField(
+                          obscureText: true,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 4.0, horizontal: 10.0),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          "Confirm password",
+                          style: Theme.of(context).textTheme.headlineSmall!,
+                        ),
+                        const SizedBox(height: 6),
+                        TextFormField(
+                          obscureText: true,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 4.0, horizontal: 10.0),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Center(
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              foregroundColor: Colors.black,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 40.0, vertical: 15.0),
+                              side: const BorderSide(
+                                  color: Color(0xFFFBC079), width: 2),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40.0),
                               ),
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 4.0, horizontal: 10.0),
                             ),
+                            onPressed: () {
+                              setState(() {
+                                _isChangePasswordVisible = true;
+                              });
+                            },
+                            child: const Text('Save password'),
                           ),
-                          const SizedBox(height: 10),
-                          Text(
-                            "New password",
-                            style: Theme.of(context).textTheme.headlineSmall!,
-                          ),
-                          const SizedBox(height: 6),
-                          TextFormField(
-                            obscureText: true,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 4.0, horizontal: 10.0),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            "Confirm password",
-                            style: Theme.of(context).textTheme.headlineSmall!,
-                          ),
-                          const SizedBox(height: 6),
-                          TextFormField(
-                            obscureText: true,
-                            decoration: const InputDecoration(
-                              border: OutlineInputBorder(),
-                              contentPadding: EdgeInsets.symmetric(
-                                  vertical: 4.0, horizontal: 10.0),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          Center(
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                foregroundColor: Colors.black,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 40.0, vertical: 15.0),
-                                side: const BorderSide(
-                                    color: Color(0xFFFBC079), width: 2),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40.0),
-                                ),
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _isChangePasswordVisible = true;
-                                });
-                              },
-                              child: const Text('Save password'),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
+                    ),
                   ],
                   const SizedBox(height: 20),
                 ],
@@ -456,6 +456,107 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ],
         ),
       ),
+    );
+  }
+
+  void _showBranchInfoDialog(BuildContext context, Branch branch) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20.0),
+          titlePadding: const EdgeInsets.only(top: 20.0),
+          title: Stack(
+            children: [
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  branch.name,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Positioned(
+                right: -10,
+                top: -15,
+                child: IconButton(
+                  icon: const Icon(Icons.clear),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+            ],
+          ),
+          content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const Text("Branch name"),
+              const SizedBox(height: 6),
+              TextFormField(
+                initialValue: branch.name,
+                readOnly: true,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 12.0, horizontal: 10.0),
+                ),
+              ),
+              const SizedBox(height: 12),
+              const Text("Address"),
+              const SizedBox(height: 6),
+              TextFormField(
+                initialValue: branch.address,
+                readOnly: true,
+                maxLines: 3,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 12.0, horizontal: 10.0),
+                ),
+              ),
+              const SizedBox(height: 12),
+              const Text("Tel."),
+              const SizedBox(height: 6),
+              TextFormField(
+                initialValue: branch.tel,
+                readOnly: true,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 12.0, horizontal: 10.0),
+                ),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            Center(
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFFBC079),
+                  foregroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 60.0, vertical: 12.0),
+                  textStyle: const TextStyle(fontSize: 18),
+                ),
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
