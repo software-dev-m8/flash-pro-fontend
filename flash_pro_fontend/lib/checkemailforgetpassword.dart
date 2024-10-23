@@ -14,7 +14,8 @@ class CheckMailbox extends StatelessWidget {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             // Handle back button press
-            runApp(const Login());
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Login()));
           },
         ),
       ),
@@ -92,7 +93,8 @@ class CheckMailbox extends StatelessWidget {
             Center(
               child: TextButton(
                 onPressed: () {
-                  runApp(const Login());
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Login()));
                 },
                 child: const Text(
                   'Back to Log in',

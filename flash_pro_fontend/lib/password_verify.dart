@@ -14,7 +14,8 @@ class PasswordVerify extends StatelessWidget {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             // Handle back button press
-            runApp(const Login());
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Login()));
           },
         ),
       ),

@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flash_pro_fontend/login.dart';
+import 'package:flash_pro_fontend/checkemailforgetpassword.dart';
 
-class ForgotPasswordApp extends StatelessWidget {
+class ForgotPasswordApp extends StatefulWidget {
   const ForgotPasswordApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: ForgotPasswordScreen(),
-    );
-  }
+  _ForgotPasswordAppState createState() => _ForgotPasswordAppState();
 }
 
-class ForgotPasswordScreen extends StatelessWidget {
+class _ForgotPasswordAppState extends State<ForgotPasswordApp> {
+  // TextEditingController for managing email input
   final TextEditingController _emailController = TextEditingController();
 
-  ForgotPasswordScreen({super.key});
+  @override
+  void dispose() {
+    // Dispose of the controller when the widget is removed from the tree
+    _emailController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +30,8 @@ class ForgotPasswordScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             // Handle back button press
-            runApp(const Login());
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Login()));
           },
         ),
       ),
@@ -88,41 +91,43 @@ class ForgotPasswordScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             // Send Button
             Center(
-                child: SizedBox(
-              width: 120,
-              child: ElevatedButton(
-                onPressed: () {
-                  String email = _emailController.text;
-                  // Handle the email sending logic
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Password reset link sent to $email'),
+              child: SizedBox(
+                width: 120,
+                child: ElevatedButton(
+                  onPressed: () {
+                    String email = _emailController.text;
+                    // Handle the email sending logic
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Password reset link sent to $email'),
+                      ),
+                    );
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CheckMailbox()));
+                  },
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(
+                        color: Colors.teal, width: 2), // Border color
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                  );
-                },
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(
-                      color: Colors.teal, width: 2), // Border color
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
                   ),
-                ),
-                child: const Text(
-                  'Send',
-                  // ignore: unnecessary_const
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.black,
+                  child: const Text(
+                    'Send',
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               ),
-            )),
+            ),
           ],
         ),
       ),

@@ -58,7 +58,8 @@ class MailVerify extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     // Logic for resending the email
-                    runApp(const Login());
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const Login()));
                   },
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(

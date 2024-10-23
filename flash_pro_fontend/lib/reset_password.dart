@@ -14,7 +14,8 @@ class ResetPassword extends StatelessWidget {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
             // Handle back button press
-            runApp(const Login());
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const Login()));
           },
         ),
       ),
@@ -75,7 +76,8 @@ class ResetPassword extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 // Add your submit functionality here
-                runApp(const Login());
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Login()));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
