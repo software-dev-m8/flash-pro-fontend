@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flash_pro_fontend/login/first.dart';
-import 'config/theme.dart';
-import 'restaurant_management.dart';
+// import 'config/theme.dart';
+// import 'restaurant_management.dart';
 
 class Main extends StatelessWidget {
   const Main({super.key});
