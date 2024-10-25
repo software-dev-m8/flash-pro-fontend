@@ -30,7 +30,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  multi_select_flutter: ^4.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -59,9 +58,6 @@ flutter:
   # the material Icons class.
   uses-material-design: true
 
-  assets:
-    - assets/image_logo/kamu_logo.png
-
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
@@ -89,12 +85,6 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-  fonts:
-  - family: Kantumruy
-    fonts:
-      - asset: assets/fonts/Kantumruy-Regular.ttf
-      - asset: assets/fonts/Kantumruy-Bold.ttf
-        weight: 700
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
