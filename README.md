@@ -34,4 +34,7 @@ To ensure everything is working as expected, run unit and widget tests:
 
    ```bash
   $ flutter upgrade
+  $ flutter packages get
+  $ flutter packages upgrade
+
   ```
