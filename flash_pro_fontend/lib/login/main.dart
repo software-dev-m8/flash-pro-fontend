@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flash_pro_fontend/first.dart';
+import 'package:flash_pro_fontend/login/first.dart';
 
 class Main extends StatelessWidget {
   const Main({super.key});

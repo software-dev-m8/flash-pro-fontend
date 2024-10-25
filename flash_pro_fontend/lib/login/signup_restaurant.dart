@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flash_pro_fontend/login.dart';
+import 'package:flash_pro_fontend/login/login.dart';
 
-class SignUpCustomer extends StatefulWidget {
-  const SignUpCustomer({super.key});
+class SignUpRestaurant extends StatefulWidget {
+  const SignUpRestaurant({super.key});
 
   @override
-  _SignUpCustomerState createState() => _SignUpCustomerState();
+  _SignUpRestaurantState createState() => _SignUpRestaurantState();
 }
 
-class _SignUpCustomerState extends State<SignUpCustomer> {
+class _SignUpRestaurantState extends State<SignUpRestaurant> {
   // Add controllers to manage text input
-  final TextEditingController fullNameController = TextEditingController();
+  final TextEditingController restaurantNameController =
+      TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController telController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
@@ -21,9 +23,10 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
   @override
   void dispose() {
     // Dispose of controllers when the widget is removed from the widget tree
-    fullNameController.dispose();
+    restaurantNameController.dispose();
     emailController.dispose();
     telController.dispose();
+    addressController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
     super.dispose();
@@ -59,12 +62,11 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
                             alignment: Alignment.topLeft,
                             child: GestureDetector(
                               onTap: () {
-                                // back to Usertype
+                                // Back to the previous screen
                                 Navigator.pop(context);
                               },
                               child: const CircleAvatar(
                                 backgroundColor: Colors.white,
-                                // Circular back button
                                 child: Icon(
                                   Icons.arrow_back,
                                   color: Colors.black,
@@ -102,16 +104,16 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
                               ),
                               const SizedBox(height: 40),
 
-                              // Username Field
+                              // Restaurant's Name Field
                               Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 32.0),
                                 child: TextField(
-                                  controller: fullNameController,
+                                  controller: restaurantNameController,
                                   decoration: InputDecoration(
                                     filled: true,
                                     fillColor: Colors.orange[50],
-                                    labelText: 'Full Name',
+                                    labelText: 'Restaurant\'s name',
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(30),
                                       borderSide: BorderSide.none,
@@ -150,6 +152,25 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
                                     filled: true,
                                     fillColor: Colors.orange[50],
                                     labelText: 'Tel.',
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(30),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+
+                              // Address Field
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 32.0),
+                                child: TextField(
+                                  controller: addressController,
+                                  decoration: InputDecoration(
+                                    filled: true,
+                                    fillColor: Colors.orange[50],
+                                    labelText: 'Address',
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(30),
                                       borderSide: BorderSide.none,
@@ -236,7 +257,7 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
                                 padding: const EdgeInsets.only(bottom: 20.0),
                                 child: RichText(
                                   text: TextSpan(
-                                    text: "Already have account? ",
+                                    text: "Already have an account? ",
                                     style: const TextStyle(color: Colors.black),
                                     children: [
                                       TextSpan(

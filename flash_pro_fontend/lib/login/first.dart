@@ -1,8 +1,8 @@
 // ignore_for_file: use_key_in_widget_constructors, sort_child_properties_last
 
 import 'package:flutter/material.dart';
-import 'package:flash_pro_fontend/login.dart';
-import 'package:flash_pro_fontend/usertype.dart';
+import 'package:flash_pro_fontend/login/login.dart';
+import 'package:flash_pro_fontend/login/usertype.dart';
 
 class First extends StatelessWidget {
   const First({super.key});

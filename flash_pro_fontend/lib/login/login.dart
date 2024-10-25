@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flash_pro_fontend/first.dart';
-import 'package:flash_pro_fontend/usertype.dart';
-import 'package:flash_pro_fontend/forgetpassword.dart';
+import 'package:flash_pro_fontend/login/first.dart';
+import 'package:flash_pro_fontend/login/usertype.dart';
+import 'package:flash_pro_fontend/login/forgetpassword.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -34,7 +34,7 @@ class _LoginState extends State<Login> {
           children: [
             // Orange top section with back arrow
             Container(
-              height: 80,
+              height: 160,
               decoration: const BoxDecoration(
                 color: Color(0xFFFFE0B2),
                 borderRadius: BorderRadius.vertical(
@@ -93,7 +93,7 @@ class _LoginState extends State<Login> {
                       TextSpan(
                         text: 'Welcome ',
                         style: TextStyle(
-                          fontSize: 30,
+                          fontSize: 40,
                           fontWeight: FontWeight.bold,
                           color: Colors.brown,
                         ),
@@ -101,7 +101,7 @@ class _LoginState extends State<Login> {
                           TextSpan(
                             text: 'Back!',
                             style: TextStyle(
-                              fontSize: 30,
+                              fontSize: 40,
                               fontWeight: FontWeight.bold,
                               color: Colors.orange,
                             ),

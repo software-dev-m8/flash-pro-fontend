@@ -1,24 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flash_pro_fontend/login.dart';
-import 'package:flash_pro_fontend/checkemailforgetpassword.dart';
+import 'package:flash_pro_fontend/login/login.dart';
 
-class ForgotPasswordApp extends StatefulWidget {
-  const ForgotPasswordApp({super.key});
-
-  @override
-  _ForgotPasswordAppState createState() => _ForgotPasswordAppState();
-}
-
-class _ForgotPasswordAppState extends State<ForgotPasswordApp> {
-  // TextEditingController for managing email input
-  final TextEditingController _emailController = TextEditingController();
-
-  @override
-  void dispose() {
-    // Dispose of the controller when the widget is removed from the tree
-    _emailController.dispose();
-    super.dispose();
-  }
+class CheckMailbox extends StatelessWidget {
+  const CheckMailbox({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,21 +26,21 @@ class _ForgotPasswordAppState extends State<ForgotPasswordApp> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             const SizedBox(height: 20),
-            // Lock Icon
+            // Envelope icon or image
             Center(
               child: Image.asset(
-                'access/lock1.png',
-                height: 150,
-                width: 150,
+                'access/verifymail2.png',
+                height: 120,
+                width: 120,
               ),
             ),
             const SizedBox(height: 20),
             // Title
             const Center(
               child: Text(
-                'Forgot password?',
+                'Check your mailbox',
                 style: TextStyle(
-                  fontSize: 35,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
                   color: Colors.black87,
                 ),
@@ -66,49 +50,27 @@ class _ForgotPasswordAppState extends State<ForgotPasswordApp> {
             // Subtitle
             const Center(
               child: Text(
-                "Don't worry! Enter your email and we'll send you a password reset link.",
+                'We sent you a link to reset password.\nIf you can\'t find the email,\nPlease check your SPAM or junk mail folder',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 15,
+                  fontSize: 16,
                   color: Colors.black54,
                 ),
               ),
             ),
             const SizedBox(height: 40),
-            // Email Input
-            TextField(
-              controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                filled: true,
-                fillColor: const Color(0xE1ECECEC),
-                labelStyle: const TextStyle(
-                  color: Colors.black54,
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            // Send Button
+            // Send Email Again Button
             Center(
               child: SizedBox(
-                width: 120,
+                width: 200,
                 child: ElevatedButton(
                   onPressed: () {
-                    String email = _emailController.text;
-                    // Handle the email sending logic
+                    // Logic for resending the email
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Password reset link sent to $email'),
+                      const SnackBar(
+                        content: Text('Password reset email sent again.'),
                       ),
                     );
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const CheckMailbox()));
                   },
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(
@@ -119,11 +81,27 @@ class _ForgotPasswordAppState extends State<ForgotPasswordApp> {
                     ),
                   ),
                   child: const Text(
-                    'Send',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
+                    'Send Email Again',
+                    style: TextStyle(fontSize: 16, color: Colors.black),
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+            // Back to Log in link
+            Center(
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Login()));
+                },
+                child: const Text(
+                  'Back to Log in',
+                  style: TextStyle(
+                    fontSize: 16,
+                    color: Colors.black,
+                    decoration: TextDecoration.underline,
                   ),
                 ),
               ),

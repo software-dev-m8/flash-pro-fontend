@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flash_pro_fontend/login.dart';
+import 'package:flash_pro_fontend/login/login.dart';
 
 class PasswordVerify extends StatelessWidget {
   const PasswordVerify({super.key});

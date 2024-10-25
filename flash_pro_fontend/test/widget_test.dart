@@ -8,8 +8,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flash_pro_fontend/main.dart';
-import 'package:flash_pro_fontend/first.dart';
+import 'package:flash_pro_fontend/login/main.dart';
+import 'package:flash_pro_fontend/login/first.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
