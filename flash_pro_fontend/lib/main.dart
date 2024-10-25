@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
-import 'config/theme.dart';
-import 'restaurant_management.dart'; 
+import 'package:flash_pro_fontend/first.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+class Main extends StatelessWidget {
+  const Main({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: theme(),
-      home: const RestaurantManagementPage(),
+      home: First(),
     );
   }
+}
+
+void main() {
+  runApp(const Main());
+
 }
