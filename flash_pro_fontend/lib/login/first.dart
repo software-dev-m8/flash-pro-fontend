@@ -20,7 +20,7 @@ class First extends StatelessWidget {
                 // Logo at the top (can be an icon or image)
                 Container(
                   margin: const EdgeInsets.only(bottom: 40.0),
-                  child: Image.asset('access/logo4.png'),
+                  child: Image.asset('assets/logo4.png'),
                   width: 250,
                   height: 250,
                 ),

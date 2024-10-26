@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:flash_pro_fontend/login/login.dart';
 
 class SignUpCustomer extends StatefulWidget {
@@ -10,17 +12,19 @@ class SignUpCustomer extends StatefulWidget {
 }
 
 class _SignUpCustomerState extends State<SignUpCustomer> {
-  // Add controllers to manage text input
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController telController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
       TextEditingController();
+  bool isLoading = false;
+
+  // Add a form key
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    // Dispose of controllers when the widget is removed from the widget tree
     fullNameController.dispose();
     emailController.dispose();
     telController.dispose();
@@ -29,12 +33,99 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
     super.dispose();
   }
 
+  Future<void> signUp() async {
+    if (!_formKey.currentState!.validate()) return;
+    // set Url fpr Your device 10.0.2.3
+    final apiUrl = Uri.parse('http://localhost:3000/api/users');
+    final header = {'Content-Type': 'application/json'};
+
+    List<String> nameParts = fullNameController.text.split(' ');
+    String firstName = nameParts.isNotEmpty ? nameParts.first : '';
+    String lastName =
+        nameParts.length > 1 ? nameParts.sublist(1).join(' ') : '';
+
+    final data = jsonEncode({
+      'email': emailController.text,
+      'password': passwordController.text,
+      "customerProfile": {
+        "firstName": firstName,
+        "lastName": lastName,
+        "phoneNumber": telController.text,
+        "birthDate": "xxxx-xx-xx" // Expected format: YYYY-MM-DD
+      }
+    });
+
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      final response = await http.post(apiUrl, headers: header, body: data);
+
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        print('Sign-up successful: ${responseData['message']}');
+
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Success'),
+            content: const Text('Account created successfully!'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => const Login()));
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      } else {
+        final errorData = jsonDecode(response.body);
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Sign-Up Failed'),
+            content: Text(errorData['message'] ?? 'An error occurred.'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+        );
+      }
+    } catch (error) {
+      print('Error: $error');
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Error'),
+          content: const Text('An error occurred. Please try again later.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset:
-          true, // Allow resizing when the keyboard is shown
-      backgroundColor: const Color(0xFFFFE0B2), // Light orange background
+      resizeToAvoidBottomInset: true,
+      backgroundColor: const Color(0xFFFFE0B2),
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -44,7 +135,6 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
                 child: IntrinsicHeight(
                   child: Column(
                     children: <Widget>[
-                      // Orange top section with back arrow
                       Container(
                         height: 100,
                         decoration: const BoxDecoration(
@@ -58,26 +148,17 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
                           child: Align(
                             alignment: Alignment.topLeft,
                             child: GestureDetector(
-                              onTap: () {
-                                // back to Usertype
-                                Navigator.pop(context);
-                              },
+                              onTap: () => Navigator.pop(context),
                               child: const CircleAvatar(
                                 backgroundColor: Colors.white,
-                                // Circular back button
-                                child: Icon(
-                                  Icons.arrow_back,
-                                  color: Colors.black,
-                                  size: 28,
-                                ),
+                                child: Icon(Icons.arrow_back,
+                                    color: Colors.black, size: 28),
                               ),
                             ),
                           ),
                         ),
                       ),
                       const SizedBox(height: 10),
-
-                      // Expanded container for sign-up form
                       Expanded(
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -87,179 +168,206 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
                               top: Radius.circular(50),
                             ),
                           ),
-                          child: Column(
-                            children: [
-                              const SizedBox(height: 40),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                const SizedBox(height: 40),
+                                const Text('Sign Up',
+                                    style: TextStyle(
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.brown)),
+                                const SizedBox(height: 40),
 
-                              // Sign Up Title
-                              const Text(
-                                'Sign Up',
-                                style: TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.brown,
-                                ),
-                              ),
-                              const SizedBox(height: 40),
-
-                              // Username Field
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 32.0),
-                                child: TextField(
-                                  controller: fullNameController,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.orange[50],
-                                    labelText: 'Full Name',
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                      borderSide: BorderSide.none,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 20),
-
-                              // Email Field
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 32.0),
-                                child: TextField(
-                                  controller: emailController,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.orange[50],
-                                    labelText: 'Email',
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                      borderSide: BorderSide.none,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 20),
-
-                              // Tel Field (Phone Number)
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 32.0),
-                                child: TextField(
-                                  controller: telController,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.orange[50],
-                                    labelText: 'Tel.',
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                      borderSide: BorderSide.none,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 20),
-
-                              // Password Field
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 32.0),
-                                child: TextField(
-                                  controller: passwordController,
-                                  obscureText: true,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.orange[50],
-                                    labelText: 'Password',
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                      borderSide: BorderSide.none,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 20),
-
-                              // Confirm Password Field
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 32.0),
-                                child: TextField(
-                                  controller: confirmPasswordController,
-                                  obscureText: true,
-                                  decoration: InputDecoration(
-                                    filled: true,
-                                    fillColor: Colors.orange[50],
-                                    labelText: 'Confirm password',
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                      borderSide: BorderSide.none,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 30),
-
-                              // Sign Up Button
-                              SizedBox(
-                                width: double.infinity,
-                                child: Padding(
+                                // Full Name Field
+                                Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 32.0),
-                                  child: ElevatedButton(
-                                    onPressed: () {
-                                      // Sign up action
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 16),
-                                      backgroundColor: Colors.white,
-                                      shape: RoundedRectangleBorder(
+                                  child: TextFormField(
+                                    controller: fullNameController,
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.orange[50],
+                                      labelText: 'Full Name',
+                                      border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(30),
-                                      ),
-                                      side: const BorderSide(
-                                          color: Colors.orange),
-                                    ),
-                                    child: const Text(
-                                      'SIGN UP',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.black,
+                                        borderSide: BorderSide.none,
                                       ),
                                     ),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter your full name';
+                                      }
+                                      return null;
+                                    },
                                   ),
                                 ),
-                              ),
-                              const SizedBox(height: 20),
+                                const SizedBox(height: 20),
 
-                              // Already have an account? Log in
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 20.0),
-                                child: RichText(
-                                  text: TextSpan(
-                                    text: "Already have account? ",
-                                    style: const TextStyle(color: Colors.black),
-                                    children: [
-                                      TextSpan(
-                                        text: 'Log in',
-                                        style: const TextStyle(
-                                          color: Colors.orange,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      const Login()),
-                                            );
-                                          },
+                                // Email Field
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 32.0),
+                                  child: TextFormField(
+                                    controller: emailController,
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.orange[50],
+                                      labelText: 'Email',
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                        borderSide: BorderSide.none,
                                       ),
-                                    ],
+                                    ),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter your email';
+                                      }
+                                      return null;
+                                    },
                                   ),
                                 ),
-                              ),
-                            ],
+                                const SizedBox(height: 20),
+
+                                // Phone Number Field
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 32.0),
+                                  child: TextFormField(
+                                    controller: telController,
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.orange[50],
+                                      labelText: 'Tel.',
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                    ),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter your phone number';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+
+                                // Password Field
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 32.0),
+                                  child: TextFormField(
+                                    controller: passwordController,
+                                    obscureText: true,
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.orange[50],
+                                      labelText: 'Password',
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                    ),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return 'Please enter a password';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+
+                                // Confirm Password Field
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 32.0),
+                                  child: TextFormField(
+                                    controller: confirmPasswordController,
+                                    obscureText: true,
+                                    decoration: InputDecoration(
+                                      filled: true,
+                                      fillColor: Colors.orange[50],
+                                      labelText: 'Confirm Password',
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                    ),
+                                    validator: (value) {
+                                      if (value == null ||
+                                          value != passwordController.text) {
+                                        return 'Passwords do not match';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(height: 30),
+
+                                // Sign Up Button
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 32.0),
+                                    child: ElevatedButton(
+                                      onPressed: isLoading ? null : signUp,
+                                      style: ElevatedButton.styleFrom(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 16),
+                                        backgroundColor: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(30),
+                                        ),
+                                        side: const BorderSide(
+                                            color: Colors.orange),
+                                      ),
+                                      child: isLoading
+                                          ? const CircularProgressIndicator()
+                                          : const Text('SIGN UP',
+                                              style: TextStyle(
+                                                  fontSize: 18,
+                                                  color: Colors.black)),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
+
+                                // Already have an account? Log in
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 20.0),
+                                  child: RichText(
+                                    text: TextSpan(
+                                      text: "Already have an account? ",
+                                      style:
+                                          const TextStyle(color: Colors.black),
+                                      children: [
+                                        TextSpan(
+                                          text: 'Log in',
+                                          style: const TextStyle(
+                                            color: Colors.orange,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          recognizer: TapGestureRecognizer()
+                                            ..onTap = () {
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const Login()));
+                                            },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
