@@ -16,6 +16,8 @@ class _LoginState extends State<Login> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  bool isLoading = false; // To manage loading state
+
   @override
   void dispose() {
     // Dispose of the controllers when the widget is removed from the tree

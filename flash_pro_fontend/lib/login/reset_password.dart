@@ -26,7 +26,7 @@ class ResetPassword extends StatelessWidget {
           children: [
             // Lock Icon at the top
             Image.asset(
-              'access/lock2.png', // Add your image asset path here
+              'assets/lock2.png', // Add your image asset path here
               height: 200,
             ),
             const SizedBox(height: 50),

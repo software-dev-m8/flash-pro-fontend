@@ -101,7 +101,7 @@ class Usertype extends StatelessWidget {
                           child: Column(
                             children: [
                               Image.asset(
-                                  'access/Restaurant customer (1) 1.png',
+                                  'assets/Restaurant customer (1) 1.png',
                                   height: 64,
                                   width: 64),
                               const SizedBox(height: 10),
@@ -165,7 +165,7 @@ class Usertype extends StatelessWidget {
                           ),
                           child: Column(
                             children: [
-                              Image.asset('access/Restaurant icon 1.png',
+                              Image.asset('assets/Restaurant icon 1.png',
                                   height: 64, width: 64),
                               const SizedBox(height: 10),
                               const Text(

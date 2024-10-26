@@ -21,7 +21,7 @@ class MailVerify extends StatelessWidget {
             // Envelope icon or image
             Center(
               child: Image.asset(
-                'access/verifymail.png',
+                'assets/verifymail.png',
                 height: 150,
                 width: 150,
               ),

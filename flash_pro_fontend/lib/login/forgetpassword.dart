@@ -45,7 +45,7 @@ class _ForgotPasswordAppState extends State<ForgotPasswordApp> {
             // Lock Icon
             Center(
               child: Image.asset(
-                'access/lock1.png',
+                'assets/lock1.png',
                 height: 150,
                 width: 150,
               ),

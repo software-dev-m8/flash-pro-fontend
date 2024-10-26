@@ -29,7 +29,7 @@ class PasswordVerify extends StatelessWidget {
             // Envelope icon or image
             Center(
               child: Image.asset(
-                'access/verifymail2.png',
+                'assets/verifymail2.png',
                 height: 120,
                 width: 120,
               ),
