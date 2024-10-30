@@ -1,8 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flash_pro_fontend/login/signup_customer.dart';
-import 'package:flash_pro_fontend/login/signup_restaurant.dart';
-import 'package:flash_pro_fontend/login/login.dart';
+import '/login/signup_customer.dart';
+import '/login/signup_restaurant.dart';
+import '/login/login.dart';
 
 class Usertype extends StatelessWidget {
   const Usertype({super.key});

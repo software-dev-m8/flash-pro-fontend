@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flash_pro_fontend/login/login.dart';
+import '/login/login.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 

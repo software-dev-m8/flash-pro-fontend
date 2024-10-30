@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
+import 'home_page.dart'; // Import the HomePage
+// void main() {
+//   runApp(MyApp());
+// }
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Food Preference',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
-      home: ChooseFavoriteAccount(),
-    );
-  }
-}
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Food Preference',
+//       theme: ThemeData(
+//         primarySwatch: Colors.green,
+//       ),
+//       home: ChooseFavoriteAccount(),
+//     );
+//   }
+// }
 
 class ChooseFavoriteAccount extends StatefulWidget {
   @override
@@ -46,9 +46,13 @@ class _ChooseFavoriteAccountState extends State<ChooseFavoriteAccount> {
   }
 
   void _submitSelection() {
-  // Return to the previous page
-  Navigator.pop(context);
-}
+    // Return to the previous page
+    // Navigator.pop(context);
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => HomePage()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +99,8 @@ class _ChooseFavoriteAccountState extends State<ChooseFavoriteAccount> {
                         runSpacing: 10.0,
                         alignment: WrapAlignment.start,
                         children: foodOptions.map((food) {
-                          final width = (_calculateTextWidth(food, textStyle) + 40);
+                          final width =
+                              (_calculateTextWidth(food, textStyle) + 40);
                           return GestureDetector(
                             onTap: () {
                               setState(() {
@@ -106,7 +111,9 @@ class _ChooseFavoriteAccountState extends State<ChooseFavoriteAccount> {
                               width: width,
                               height: 40,
                               decoration: BoxDecoration(
-                                color: selectedFoods[food]! ? Color(0xFFFBC079) : Colors.white,
+                                color: selectedFoods[food]!
+                                    ? Color(0xFFFBC079)
+                                    : Colors.white,
                                 borderRadius: BorderRadius.circular(30),
                                 border: Border.all(
                                   color: Color(0xFFFBC079),

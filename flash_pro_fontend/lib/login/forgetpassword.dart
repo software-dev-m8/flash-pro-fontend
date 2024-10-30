@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flash_pro_fontend/login/login.dart';
-import 'package:flash_pro_fontend/login/checkemailforgetpassword.dart';
+import '/login/login.dart';
+import '/login/checkemailforgetpassword.dart';
 
 class ForgotPasswordApp extends StatefulWidget {
   const ForgotPasswordApp({super.key});

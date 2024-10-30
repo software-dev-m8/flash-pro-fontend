@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flash_pro_fontend/login/login.dart';
+import '/login/login.dart';
 
 class CheckMailbox extends StatelessWidget {
   const CheckMailbox({super.key});

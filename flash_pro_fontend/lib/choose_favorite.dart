@@ -1,22 +1,22 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart'; // Import the HomePage
 
-void main() {
-  runApp(MyApp());
-}
+// void main() {
+//   runApp(MyApp());
+// }
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Food Preference',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
-      home: FoodPreferencePage(),
-    );
-  }
-}
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Food Preference',
+//       theme: ThemeData(
+//         primarySwatch: Colors.green,
+//       ),
+//       home: FoodPreferencePage(),
+//     );
+//   }
+// }
 
 class FoodPreferencePage extends StatefulWidget {
   @override
@@ -99,7 +99,8 @@ class _FoodPreferencePageState extends State<FoodPreferencePage> {
                         runSpacing: 10.0,
                         alignment: WrapAlignment.start,
                         children: foodOptions.map((food) {
-                          final width = (_calculateTextWidth(food, textStyle) + 40);
+                          final width =
+                              (_calculateTextWidth(food, textStyle) + 40);
                           return GestureDetector(
                             onTap: () {
                               setState(() {
@@ -110,7 +111,9 @@ class _FoodPreferencePageState extends State<FoodPreferencePage> {
                               width: width,
                               height: 40,
                               decoration: BoxDecoration(
-                                color: selectedFoods[food]! ? Color(0xFFFBC079) : Colors.white,
+                                color: selectedFoods[food]!
+                                    ? Color(0xFFFBC079)
+                                    : Colors.white,
                                 borderRadius: BorderRadius.circular(30),
                                 border: Border.all(
                                   color: Color(0xFFFBC079),

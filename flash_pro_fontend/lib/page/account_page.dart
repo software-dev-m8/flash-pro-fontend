@@ -2,8 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/choose_favorite_account.dart';
 import 'package:flutter_application_1/history_page.dart';
 import 'package:flutter_application_1/editprofile_page.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class AccountPage extends StatelessWidget {
+  //fix this
+  final Future<void> myUser = fetchData();
+
+  static Future<void> fetchData() async {
+    String userId = '6721e982a153886f4ec78d6f';
+    final apiUrl = Uri.parse('https://flash.mupingdev.org/api/users/${userId}');
+
+    try {
+      final response = await http.get(apiUrl);
+      print(response.body);
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        print('Sign-In successful: ${responseData['message']}');
+      }
+    } catch (e) {
+      print('Error');
+    }
+  }
+
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: Colors.white,
@@ -40,13 +61,17 @@ class AccountPage extends StatelessWidget {
                       ),
                       child: CircleAvatar(
                         radius: 35,
-                        backgroundImage: NetworkImage('https://example.com/account_image.jpg'),
+                        backgroundImage: NetworkImage(
+                            'https://example.com/account_image.jpg'),
                       ),
                     ),
                     SizedBox(width: 10),
                     Text(
                       'Account Name',
-                      style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
                     ),
                     Spacer(),
                     IconButton(
@@ -54,7 +79,8 @@ class AccountPage extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => EditprofilePage()),
+                          MaterialPageRoute(
+                              builder: (context) => EditprofilePage()),
                         );
                       },
                     ),
@@ -71,12 +97,15 @@ class AccountPage extends StatelessWidget {
               Container(
                 height: 60,
                 child: ListTile(
-                  title: Text('Favorite kind of food', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  title: Text('Favorite kind of food',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   trailing: Icon(Icons.chevron_right),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ChooseFavoriteAccount()),
+                      MaterialPageRoute(
+                          builder: (context) => ChooseFavoriteAccount()),
                     );
                   },
                 ),
@@ -99,7 +128,9 @@ class AccountPage extends StatelessWidget {
               Container(
                 height: 60,
                 child: ListTile(
-                  title: Text('History', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  title: Text('History',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   trailing: Icon(Icons.chevron_right),
                   onTap: () {
                     Navigator.push(
@@ -113,7 +144,9 @@ class AccountPage extends StatelessWidget {
               Container(
                 height: 60,
                 child: ListTile(
-                  title: Text('Log Out', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  title: Text('Log Out',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   trailing: Icon(Icons.logout, color: Color(0xFFD04040)),
                   onTap: () {
                     _showLogoutDialog(context);
@@ -132,10 +165,14 @@ class AccountPage extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.white,
-          title: Center(child: Text('Log Out?', style: TextStyle(fontWeight: FontWeight.bold))),
+          title: Center(
+              child: Text('Log Out?',
+                  style: TextStyle(fontWeight: FontWeight.bold))),
           content: SizedBox(
             height: 20, // Adjust height here
-            child: Center(child: Text('You can come back anytime', style: TextStyle(fontSize: 18))),
+            child: Center(
+                child: Text('You can come back anytime',
+                    style: TextStyle(fontSize: 18))),
           ),
           actions: [
             Row(
@@ -146,8 +183,13 @@ class AccountPage extends StatelessWidget {
                   child: SizedBox(
                     width: 200,
                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(backgroundColor: Color(0xFFD04040)),
-                      child: Text('Log Out', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFFD04040)),
+                      child: Text('Log Out',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20)),
                       onPressed: () {
                         print('Log Out confirmed');
                         Navigator.of(context).pop();
@@ -167,8 +209,13 @@ class AccountPage extends StatelessWidget {
                   child: SizedBox(
                     width: 200,
                     child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.grey),
-                      child: Text('Cancel', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey),
+                      child: Text('Cancel',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20)),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },

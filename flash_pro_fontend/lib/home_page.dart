@@ -54,6 +54,7 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.transparent,
                 ),
                 child: Center(
+                  // add the image
                   child: Image.network(
                     'https://via.placeholder.com/550x300', // Replace with your image URL
                     fit: BoxFit.cover,
@@ -93,31 +94,34 @@ class _HomePageState extends State<HomePage> {
                   child: Row(
                     children: [
                       Expanded(
-  child: ElevatedButton(
-    onPressed: () {
-      _onItemTapped(0);
-    },
-    style: ElevatedButton.styleFrom(
-      backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(40),
-      ),
-      padding: EdgeInsets.symmetric(vertical: 9, horizontal: 20),
-    ),
-    child: Row(
-      children: [
-        Icon(Icons.search, color: Color(0xFFFBC079), size: 30),
-        SizedBox(width: 0), // Adjust this value to move the text closer
-        Text(
-          'Search',
-          style: TextStyle(color: Colors.grey, fontSize: 20),
-        ),
-      ],
-    ),
-  ),
-),
-
-
+                        child: ElevatedButton(
+                          onPressed: () {
+                            _onItemTapped(0);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 9, horizontal: 20),
+                          ),
+                          child: Row(
+                            children: [
+                              Icon(Icons.search,
+                                  color: Color(0xFFFBC079), size: 30),
+                              SizedBox(
+                                  width:
+                                      0), // Adjust this value to move the text closer
+                              Text(
+                                'Search',
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flash_pro_fontend/login/first.dart';
-import 'package:flash_pro_fontend/login/usertype.dart';
-import 'package:flash_pro_fontend/login/forgetpassword.dart';
+import '/login/first.dart';
+import '/login/usertype.dart';
+import '/login/forgetpassword.dart';
+import '/choose_favorite_account.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -50,8 +51,8 @@ class _LoginState extends State<Login> {
         final responseData = jsonDecode(response.body);
         print('Sign-In successful: ${responseData['message']}');
         // add when merge
-        // Navigator.push(
-        //     context, MaterialPageRoute(builder: (context) => const Login()));
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => ChooseFavoriteAccount()));
       } else {
         final errorData = jsonDecode(response.body);
         debugPrint(errorData);
