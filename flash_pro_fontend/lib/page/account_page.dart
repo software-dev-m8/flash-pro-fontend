@@ -6,25 +6,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class AccountPage extends StatelessWidget {
-  //fix this
-  final Future<void> myUser = fetchData();
-
-  static Future<void> fetchData() async {
-    String userId = '6721e982a153886f4ec78d6f';
-    final apiUrl = Uri.parse('https://flash.mupingdev.org/api/users/${userId}');
-
-    try {
-      final response = await http.get(apiUrl);
-      print(response.body);
-      if (response.statusCode == 200) {
-        final responseData = jsonDecode(response.body);
-        print('Sign-In successful: ${responseData['message']}');
-      }
-    } catch (e) {
-      print('Error');
-    }
-  }
-
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: Colors.white,
@@ -102,11 +83,12 @@ class AccountPage extends StatelessWidget {
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   trailing: Icon(Icons.chevron_right),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ChooseFavoriteAccount()),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //       builder: (context) =>
+                    //           ChooseFavoriteAccount(token: token)),
+                    // );
                   },
                 ),
               ),

@@ -4,6 +4,8 @@ import 'package:flutter_application_1/popular_coupons.dart';
 import 'package:flutter_application_1/menucoupon_detail.dart';
 import 'package:flutter_application_1/restaurant_page.dart';
 import 'package:flutter_application_1/coupon_detail.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class RealHomePage extends StatefulWidget {
   @override
@@ -14,51 +16,53 @@ class _RealHomePageState extends State<RealHomePage> {
   String searchQuery = '';
   String? _selectedSize;
   bool _isSearching = false; // Track if search is active
+  // get allCoupons
+  Future<void> getAllCoupons() async {
+    final apiUrl = Uri.parse('https://flash.mupingdev.org/api/coupons');
+    final response = await http.get(apiUrl);
+    debugPrint(response.body);
+  }
 
-final List<Map<String, String>> menuItems = [
-  {
-    'imageUrl': 'https://via.placeholder.com/80',
-    'menuName': 'Menu Item 1',
-    'originalPrice': '\$20',
-    'restaurantName': "Restaurant 1",
-    'discount': "30",
-    'location': "abc",
-    'startDate': "2024-10-01", // Example date format (YYYY-MM-DD)
-    'endDate': "2024-10-10", // Example date format (YYYY-MM-DD)
-    'amount': "200",
-  },
-  {
-    'imageUrl': 'https://via.placeholder.com/80',
-    'menuName': 'Menu Item 2',
-    'originalPrice': '\$30',
-    'restaurantName': "Restaurant 2",
-    'discount': "30",
-    'location': "abc",
-    'startDate': "2024-10-02",
-    'endDate': "2024-10-11",
-    'amount': "200",
-  },
-  {
-    'imageUrl': 'https://via.placeholder.com/80',
-    'menuName': 'Menu Item 3',
-    'originalPrice': '\$40',
-    'restaurantName': "Restaurant 3",
-    'discount': "30",
-    'location': "abc",
-    'startDate': "2024-10-03",
-    'endDate': "2024-10-12",
-    'amount': "200",
-  },
-  // Add more menu items as needed
-];
-
-
-
-
+  final List<Map<String, String>> menuItems = [
+    {
+      'imageUrl': 'https://via.placeholder.com/80',
+      'menuName': 'Menu Item 1',
+      'originalPrice': '\$20',
+      'restaurantName': "Restaurant 1",
+      'discount': "30",
+      'location': "abc",
+      'startDate': "2024-10-01", // Example date format (YYYY-MM-DD)
+      'endDate': "2024-10-10", // Example date format (YYYY-MM-DD)
+      'amount': "200",
+    },
+    {
+      'imageUrl': 'https://via.placeholder.com/80',
+      'menuName': 'Menu Item 2',
+      'originalPrice': '\$30',
+      'restaurantName': "Restaurant 2",
+      'discount': "30",
+      'location': "abc",
+      'startDate': "2024-10-02",
+      'endDate': "2024-10-11",
+      'amount': "200",
+    },
+    {
+      'imageUrl': 'https://via.placeholder.com/80',
+      'menuName': 'Menu Item 3',
+      'originalPrice': '\$40',
+      'restaurantName': "Restaurant 3",
+      'discount': "30",
+      'location': "abc",
+      'startDate': "2024-10-03",
+      'endDate': "2024-10-12",
+      'amount': "200",
+    },
+    // Add more menu items as needed
+  ];
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    backgroundColor: Colors.white, 
+        backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Color(0xFFFBC079),
           toolbarHeight: 90,
@@ -88,8 +92,8 @@ final List<Map<String, String>> menuItems = [
                           borderSide: BorderSide.none,
                         ),
                         prefixIcon: Padding(
-                          padding: const EdgeInsets.only(
-                              left: 20.0, right: 0.0),
+                          padding:
+                              const EdgeInsets.only(left: 20.0, right: 0.0),
                           child: Icon(Icons.search,
                               color: Color(0xFFFBC079), size: 30),
                         ),
@@ -107,8 +111,8 @@ final List<Map<String, String>> menuItems = [
                             ),
                           ),
                           child: PopupMenuButton<String>(
-                            icon: Icon(Icons.more_vert,
-                                color: Color(0xFFFBC079)),
+                            icon:
+                                Icon(Icons.more_vert, color: Color(0xFFFBC079)),
                             offset: Offset(-20, 40),
                             color: Colors.white,
                             itemBuilder: (BuildContext context) {
@@ -165,8 +169,7 @@ final List<Map<String, String>> menuItems = [
                             },
                           ),
                         ),
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10),
+                        contentPadding: EdgeInsets.symmetric(vertical: 10),
                       ),
                       style: TextStyle(color: Colors.grey, fontSize: 20),
                     ),
@@ -189,33 +192,31 @@ final List<Map<String, String>> menuItems = [
                 ),
               if (_isSearching) // Show vertical promotion list if searching
                 _buildVerticalPromotionList([
-  {
-    'imageUrl': 'https://via.placeholder.com/80',
-    'storeName': 'Store X',
-    'promotionInfo': 'Special offer!',
-    'location': '123 Main St',
-    'startDate': '2024-10-01',  // Updated startDate format
-    'endDate': '2024-10-10',    // Updated endDate format
-    'couponsLeft': '5',
-    'type': 'Discount',
-  },
-  {
-    'imageUrl': 'https://via.placeholder.com/80',
-    'storeName': 'Store Y',
-    'promotionInfo': 'Limited time deal!',
-    'location': '456 Elm St',
-    'startDate': '2024-11-01',  // Updated startDate format
-    'endDate': '2024-11-30',    // Updated endDate format
-    'couponsLeft': '10',
-    'type': 'Exclusive',
-  },
-]),
+                  {
+                    'imageUrl': 'https://via.placeholder.com/80',
+                    'storeName': 'Store X',
+                    'promotionInfo': 'Special offer!',
+                    'location': '123 Main St',
+                    'startDate': '2024-10-01', // Updated startDate format
+                    'endDate': '2024-10-10', // Updated endDate format
+                    'couponsLeft': '5',
+                    'type': 'Discount',
+                  },
+                  {
+                    'imageUrl': 'https://via.placeholder.com/80',
+                    'storeName': 'Store Y',
+                    'promotionInfo': 'Limited time deal!',
+                    'location': '456 Elm St',
+                    'startDate': '2024-11-01', // Updated startDate format
+                    'endDate': '2024-11-30', // Updated endDate format
+                    'couponsLeft': '10',
+                    'type': 'Exclusive',
+                  },
+                ]),
 
-              if (_isSearching)   
-                _buildMenuList(menuItems),
+              if (_isSearching) _buildMenuList(menuItems),
 
-              if (!_isSearching)
-              SizedBox(height: 10),
+              if (!_isSearching) SizedBox(height: 10),
 
               if (!_isSearching)
                 Container(
@@ -228,9 +229,8 @@ final List<Map<String, String>> menuItems = [
                   ),
                 ),
 
-              if (!_isSearching)
-              SizedBox(height: 10),
-              
+              if (!_isSearching) SizedBox(height: 10),
+
               if (!_isSearching)
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -242,7 +242,8 @@ final List<Map<String, String>> menuItems = [
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => RecommendedPage(), // Navigate to the new page
+                            builder: (context) =>
+                                RecommendedPage(), // Navigate to the new page
                           ),
                         );
                       },
@@ -257,55 +258,53 @@ final List<Map<String, String>> menuItems = [
                     ),
                   ],
                 ),
-              if (!_isSearching)
-              SizedBox(height: 10),
+              if (!_isSearching) SizedBox(height: 10),
 
               if (!_isSearching)
                 _buildPromotionList([
                   {
-    'imageUrl': 'https://via.placeholder.com/150',
-    'storeName': 'Store 1',
-    'promotionInfo': '20% off on all items!',
-    'location': '123 Main St',
-    'startDate': '2024-10-01',
-    'endDate': '2024-10-31',
-    'couponsLeft': '5',
-    'type': 'Discount',
-  },
-  {
-    'imageUrl': 'https://via.placeholder.com/150',
-    'storeName': 'Store 2',
-    'promotionInfo': 'Buy one get one free!',
-    'location': '789 Pine St',
-    'startDate': '2024-10-05',
-    'endDate': '2024-11-05',
-    'couponsLeft': '8',
-    'type': 'BOGO',
-  },
-  {
-    'imageUrl': 'https://via.placeholder.com/150',
-    'storeName': 'Store 3',
-    'promotionInfo': 'Free shipping on orders over \$50!',
-    'location': '101 Maple Ave',
-    'startDate': '2024-10-10',
-    'endDate': '2024-11-10',
-    'couponsLeft': '15',
-    'type': 'Shipping',
-  },
-  {
-    'imageUrl': 'https://via.placeholder.com/80',
-    'storeName': 'Store Y',
-    'promotionInfo': 'Limited time deal!',
-    'location': '456 Elm St',
-    'startDate': '2024-11-01',  // Updated startDate format
-    'endDate': '2024-11-30',    // Updated endDate format
-    'couponsLeft': '10',
-    'type': 'Exclusive',
-  },
+                    'imageUrl': 'https://via.placeholder.com/150',
+                    'storeName': 'Store 1',
+                    'promotionInfo': '20% off on all items!',
+                    'location': '123 Main St',
+                    'startDate': '2024-10-01',
+                    'endDate': '2024-10-31',
+                    'couponsLeft': '5',
+                    'type': 'Discount',
+                  },
+                  {
+                    'imageUrl': 'https://via.placeholder.com/150',
+                    'storeName': 'Store 2',
+                    'promotionInfo': 'Buy one get one free!',
+                    'location': '789 Pine St',
+                    'startDate': '2024-10-05',
+                    'endDate': '2024-11-05',
+                    'couponsLeft': '8',
+                    'type': 'BOGO',
+                  },
+                  {
+                    'imageUrl': 'https://via.placeholder.com/150',
+                    'storeName': 'Store 3',
+                    'promotionInfo': 'Free shipping on orders over \$50!',
+                    'location': '101 Maple Ave',
+                    'startDate': '2024-10-10',
+                    'endDate': '2024-11-10',
+                    'couponsLeft': '15',
+                    'type': 'Shipping',
+                  },
+                  {
+                    'imageUrl': 'https://via.placeholder.com/80',
+                    'storeName': 'Store Y',
+                    'promotionInfo': 'Limited time deal!',
+                    'location': '456 Elm St',
+                    'startDate': '2024-11-01', // Updated startDate format
+                    'endDate': '2024-11-30', // Updated endDate format
+                    'couponsLeft': '10',
+                    'type': 'Exclusive',
+                  },
                 ]),
 
-              if (!_isSearching)
-              SizedBox(height: 10),
+              if (!_isSearching) SizedBox(height: 10),
 
               if (!_isSearching)
                 Row(
@@ -318,7 +317,8 @@ final List<Map<String, String>> menuItems = [
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => PopularCouponsPage(), // Navigate to the new page
+                            builder: (context) =>
+                                PopularCouponsPage(), // Navigate to the new page
                           ),
                         );
                       },
@@ -333,78 +333,76 @@ final List<Map<String, String>> menuItems = [
                     ),
                   ],
                 ),
-              
-              if (!_isSearching)
-              SizedBox(height: 10),
-              
+
+              if (!_isSearching) SizedBox(height: 10),
+
               if (!_isSearching)
                 _buildPromotionList([
                   {
-    'imageUrl': 'https://via.placeholder.com/150',
-    'storeName': 'Store A',
-    'promotionInfo': '15% off on your first purchase!',
-    'location': '202 Oak St',
-    'startDate': '2024-10-15',
-    'endDate': '2024-11-15',
-    'couponsLeft': '12',
-    'type': 'Discount',
-  },
-  {
-    'imageUrl': 'https://via.placeholder.com/150',
-    'storeName': 'Store B',
-    'promotionInfo': 'Get a free gift with purchase!',
-    'location': '303 Birch St',
-    'startDate': '2024-10-20',
-    'endDate': '2024-11-20',
-    'couponsLeft': '20',
-    'type': 'Gift',
-  },
-  {
-    'imageUrl': 'https://via.placeholder.com/150',
-    'storeName': 'Store C',
-    'promotionInfo': '30% off on select items!',
-    'location': '404 Cedar St',
-    'startDate': '2024-10-25',
-    'endDate': '2024-11-25',
-    'couponsLeft': '7',
-    'type': 'Discount',
-  },
-  {
-    'imageUrl': 'https://via.placeholder.com/80',
-    'storeName': 'Store Y',
-    'promotionInfo': 'Limited time deal!',
-    'location': '456 Elm St',
-    'startDate': '2024-11-01',  // Updated startDate format
-    'endDate': '2024-11-30',    // Updated endDate format
-    'couponsLeft': '10',
-    'type': 'Exclusive',
-  },
+                    'imageUrl': 'https://via.placeholder.com/150',
+                    'storeName': 'Store A',
+                    'promotionInfo': '15% off on your first purchase!',
+                    'location': '202 Oak St',
+                    'startDate': '2024-10-15',
+                    'endDate': '2024-11-15',
+                    'couponsLeft': '12',
+                    'type': 'Discount',
+                  },
+                  {
+                    'imageUrl': 'https://via.placeholder.com/150',
+                    'storeName': 'Store B',
+                    'promotionInfo': 'Get a free gift with purchase!',
+                    'location': '303 Birch St',
+                    'startDate': '2024-10-20',
+                    'endDate': '2024-11-20',
+                    'couponsLeft': '20',
+                    'type': 'Gift',
+                  },
+                  {
+                    'imageUrl': 'https://via.placeholder.com/150',
+                    'storeName': 'Store C',
+                    'promotionInfo': '30% off on select items!',
+                    'location': '404 Cedar St',
+                    'startDate': '2024-10-25',
+                    'endDate': '2024-11-25',
+                    'couponsLeft': '7',
+                    'type': 'Discount',
+                  },
+                  {
+                    'imageUrl': 'https://via.placeholder.com/80',
+                    'storeName': 'Store Y',
+                    'promotionInfo': 'Limited time deal!',
+                    'location': '456 Elm St',
+                    'startDate': '2024-11-01', // Updated startDate format
+                    'endDate': '2024-11-30', // Updated endDate format
+                    'couponsLeft': '10',
+                    'type': 'Exclusive',
+                  },
                 ]),
               SizedBox(height: 20),
               if (!_isSearching)
                 _buildVerticalPromotionList([
-    {
-    'imageUrl': 'https://via.placeholder.com/80',
-    'storeName': 'Store X',
-    'promotionInfo': 'Special offer!',
-    'location': '123 Main St',
-    'startDate': '2024-12-01',  // Updated startDate format
-    'endDate': '2024-12-31',    // Updated endDate format
-    'couponsLeft': '5',
-    'type': 'Discount',
-  },
-  {
-    'imageUrl': 'https://via.placeholder.com/80',
-    'storeName': 'Store Y',
-    'promotionInfo': 'Limited time deal!',
-    'location': '456 Elm St',
-    'startDate': '2024-11-01',  // Updated startDate format
-    'endDate': '2024-11-30',    // Updated endDate format
-    'couponsLeft': '10',
-    'type': 'Exclusive',
-  },
-])
-
+                  {
+                    'imageUrl': 'https://via.placeholder.com/80',
+                    'storeName': 'Store X',
+                    'promotionInfo': 'Special offer!',
+                    'location': '123 Main St',
+                    'startDate': '2024-12-01', // Updated startDate format
+                    'endDate': '2024-12-31', // Updated endDate format
+                    'couponsLeft': '5',
+                    'type': 'Discount',
+                  },
+                  {
+                    'imageUrl': 'https://via.placeholder.com/80',
+                    'storeName': 'Store Y',
+                    'promotionInfo': 'Limited time deal!',
+                    'location': '456 Elm St',
+                    'startDate': '2024-11-01', // Updated startDate format
+                    'endDate': '2024-11-30', // Updated endDate format
+                    'couponsLeft': '10',
+                    'type': 'Exclusive',
+                  },
+                ])
             ],
           ),
         ),
@@ -438,499 +436,171 @@ final List<Map<String, String>> menuItems = [
   }
 
   Widget _buildPromotionCard({
-  required String imageUrl,
-  required String storeName,
-  required String promotionInfo,
-  required String location,
-  required String startDate,
-  required String endDate,
-  required String couponsLeft,
-  required String type,
-}) {
-  return GestureDetector(
-    onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CouponDetail(
-            // menuName: menuName,
-            imageUrl: imageUrl,
-            restaurantName: storeName,
-            discount: promotionInfo,
-            location: location,
-            startDate: startDate,
-            endDate: endDate,
-            // originalPrice: originalPrice,
-            amount: couponsLeft,
-            type: type,
+    required String imageUrl,
+    required String storeName,
+    required String promotionInfo,
+    required String location,
+    required String startDate,
+    required String endDate,
+    required String couponsLeft,
+    required String type,
+  }) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CouponDetail(
+              // menuName: menuName,
+              imageUrl: imageUrl,
+              restaurantName: storeName,
+              discount: promotionInfo,
+              location: location,
+              startDate: startDate,
+              endDate: endDate,
+              // originalPrice: originalPrice,
+              amount: couponsLeft,
+              type: type,
+            ),
           ),
-        ),
-      );
-    },
-    child: Container(
-      width: 150,
-      margin: EdgeInsets.only(right: 16),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Color(0xFFFEF6EB),
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-                child: Image.network(
-                  imageUrl,
-                  height: 90,
-                  width: double.infinity,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Container(
-                      height: 90,
-                      color: Colors.grey, // Placeholder color
-                      child: Center(child: Icon(Icons.error)),
-                    );
-                  },
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 4.0),
-              child: Text(
-                storeName,
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 2.0),
-              child: Text(
-                promotionInfo,
-                style: TextStyle(fontSize: 14),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
-}
-
-   Widget _buildVerticalPromotionList(List<Map<String, String>> promotions) {
-  return Container(
-    margin: EdgeInsets.only(top: 0),
-    child: Column(
-      children: promotions.map((promotion) {
-        return _buildVerticalPromotionCard(
-          imageUrl: promotion['imageUrl']!,
-          storeName: promotion['storeName']!,
-          promotionDetail: promotion['promotionInfo']!,
-          location: promotion['location']!,
-          startDate: promotion['startDate']!,
-          endDate: promotion['endDate']!,
-          couponsLeft: promotion['couponsLeft']!,
-          type: promotion['type']!, // Pass the type here
         );
-      }).toList(),
-    ),
-  );
-}
-
-
-  Widget _buildVerticalPromotionCard({
-  required String imageUrl,
-  required String storeName,
-  required String promotionDetail,
-  required String location,
-  required String startDate,
-  required String endDate,
-  required String couponsLeft,
-  required String type, // Add type as a parameter
-}) {
-  return GestureDetector(
-    onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CouponDetail(
-            // menuName: menuName,
-            imageUrl: imageUrl,
-            restaurantName: storeName,
-            discount: promotionDetail,
-            location: location,
-            startDate: startDate,
-            endDate: endDate,
-            // originalPrice: originalPrice,
-            amount: couponsLeft,
-            type: type,
-          ),
+      },
+      child: Container(
+        width: 150,
+        margin: EdgeInsets.only(right: 16),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Color(0xFFFEF6EB),
         ),
-      );
-    },
-    child: Container(
-      margin: EdgeInsets.only(bottom: 16),
-      child: Stack(
-        children: [
-          Positioned(
-            right: 0,
-            child: Container(
-              height: 180,
-              width: 350,
-              decoration: BoxDecoration(
-                color: Color(0xFFFEF6EB),
-                borderRadius: BorderRadius.circular(25),
-              ),
-            ),
-          ),
-          Positioned(
-            left: 358,
-            top: 55,
-            child: Container(
-              width: 70,
-              height: 70,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          Row(
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: 80,
-                height: 80,
-                margin: EdgeInsets.only(left: 0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(18),
-                  border: Border.all(color: Color(0xFFFBC079), width: 4),
-                  image: DecorationImage(
-                    image: NetworkImage(imageUrl),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 8.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+                  child: Image.network(
+                    imageUrl,
+                    height: 90,
+                    width: double.infinity,
                     fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        height: 90,
+                        color: Colors.grey, // Placeholder color
+                        child: Center(child: Icon(Icons.error)),
+                      );
+                    },
                   ),
                 ),
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        storeName,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(
-                              text: promotionDetail,
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black,
-                              ),
-                            ),
-                            TextSpan(
-                              text: '  $type', // Add type immediately after detail
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey, // Smaller font and grey color for the type
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Icon(Icons.location_on, size: 25, color: Color(0xFFFBC079)),
-                          SizedBox(width: 4),
-                          Text(location, style: TextStyle(color: Colors.black)),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Icon(Icons.date_range, size: 25, color: Color(0xFFFBC079)),
-                          SizedBox(width: 4),
-                          Text('$startDate - $endDate', style: TextStyle(color: Colors.black)),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text('$couponsLeft coupons left', style: TextStyle(color: Color(0xFFD04040))),
-                          SizedBox(width: 8),
-                          ElevatedButton(
-                            onPressed: () {
-  // Show the confirmation dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        backgroundColor: Colors.white, // Set the background color to white
-        content: Text(
-          "When you collect the coupon, you'll have 2 hours to use it.",
-          textAlign: TextAlign.center, // Center align the text itself
-          style: TextStyle(
-            fontWeight: FontWeight.bold, // Make the text bold
-            fontSize: 18, // Increase font size (adjust as needed)
-          ),
-        ),
-        actions: <Widget>[
-          Center( // Center the Column horizontally
-            child: Column(
-              mainAxisSize: MainAxisSize.min, // Ensure the column takes only as much space as needed
-              children: [
-                // Agree Button
-                Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFBC079), // Sausage color (adjust as needed)
-                    borderRadius: BorderRadius.circular(30), // Rounded corners
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      // Handle agree action
-                      Navigator.of(context).pop(); // Close the dialog
-                      print('User agreed to the coupon terms');
-                    },
-                    child: Text(
-                      'Agree',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold, // Make the button text bold
-                        fontSize: 18, // Increase button text size (adjust as needed)
-                        color: Colors.black, // Text color
-                      ),
-                    ),
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40), // Add padding for height and width
-                      minimumSize: Size(200, 30), // Increased minimum button width
-                    ),
-                  ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 4.0),
+                child: Text(
+                  storeName,
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
-                SizedBox(height: 10), // Add space between buttons
-                // Back Button
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey, // Make it the same color as the Agree button
-                    borderRadius: BorderRadius.circular(30), // Rounded corners
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      // Handle back action
-                      Navigator.of(context).pop(); // Close the dialog
-                    },
-                    child: Text(
-                      'Back',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold, // Make the button text bold
-                        fontSize: 18, // Increase button text size (adjust as needed)
-                        color: Colors.white, // Text color
-                      ),
-                    ),
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40), // Add padding for height and width
-                      minimumSize: Size(200, 30), // Increased minimum button width
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
-    },
-  );
-},
-
-                            child: Text(
-                              'Collect',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFFFBC079),
-                              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                              minimumSize: Size(80, 30),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(7),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 2.0),
+                child: Text(
+                  promotionInfo,
+                  style: TextStyle(fontSize: 14),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
               ),
             ],
           ),
-        ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
+  Widget _buildVerticalPromotionList(List<Map<String, String>> promotions) {
+    return Container(
+      margin: EdgeInsets.only(top: 0),
+      child: Column(
+        children: promotions.map((promotion) {
+          return _buildVerticalPromotionCard(
+            imageUrl: promotion['imageUrl']!,
+            storeName: promotion['storeName']!,
+            promotionDetail: promotion['promotionInfo']!,
+            location: promotion['location']!,
+            startDate: promotion['startDate']!,
+            endDate: promotion['endDate']!,
+            couponsLeft: promotion['couponsLeft']!,
+            type: promotion['type']!, // Pass the type here
+          );
+        }).toList(),
+      ),
+    );
+  }
 
-
-Widget _buildRestaurantCard({
-  required String imageUrl,
-  required String restaurantName,
-  required String description,
-}) {
-  return Container(
-    margin: EdgeInsets.only(bottom: 16),
-    child: Column(
-      children: [
-        SizedBox(height: 20),
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildVerticalPromotionCard({
+    required String imageUrl,
+    required String storeName,
+    required String promotionDetail,
+    required String location,
+    required String startDate,
+    required String endDate,
+    required String couponsLeft,
+    required String type, // Add type as a parameter
+  }) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CouponDetail(
+              // menuName: menuName,
+              imageUrl: imageUrl,
+              restaurantName: storeName,
+              discount: promotionDetail,
+              location: location,
+              startDate: startDate,
+              endDate: endDate,
+              // originalPrice: originalPrice,
+              amount: couponsLeft,
+              type: type,
+            ),
+          ),
+        );
+      },
+      child: Container(
+        margin: EdgeInsets.only(bottom: 16),
+        child: Stack(
           children: [
-            SizedBox(width: 5),
-            Container(
-              width: 70,
-              height: 70,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(18),
-                border: Border.all(color: Color(0xFFFBC079), width: 4),
-                image: DecorationImage(
-                  image: NetworkImage(imageUrl),
-                  fit: BoxFit.cover,
+            Positioned(
+              right: 0,
+              child: Container(
+                height: 180,
+                width: 350,
+                decoration: BoxDecoration(
+                  color: Color(0xFFFEF6EB),
+                  borderRadius: BorderRadius.circular(25),
                 ),
               ),
             ),
-            SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    restaurantName,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                  Text(
-                    description,
-                    style: TextStyle(fontSize: 14),
-                  ),
-                ],
-              ),
-            ),
-            Align(
-              alignment: Alignment.topRight,
-              child: TextButton(
-                onPressed: () {
-                        Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Restaurant(restaurantName: restaurantName), // Pass the restaurant name here
-                  ),
-                );
-
-                      },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      'view restaurant',
-                      style: TextStyle(color: Colors.grey), // Set text color to black
-                    ),
-                    SizedBox(width: 0),
-                    Icon(
-                      Icons.chevron_right,
-                      size: 30,
-                      color: Colors.grey, // Set icon color to black
-                    ),
-                  ],
+            Positioned(
+              left: 358,
+              top: 55,
+              child: Container(
+                width: 70,
+                height: 70,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
                 ),
               ),
             ),
-          ],
-        ),
-        SizedBox(height: 15),
-        Divider(color: Colors.grey, thickness: 1),
-      ],
-    ),
-  );
-}
-
-
-Widget _buildMenuCard({
-  required String imageUrl,
-  required String menuName,
-  required String originalPrice,
-  required String discount,
-  required String restaurantName,
-  required String location,
-  required String startDate,
-  required String endDate,
-  required String amount,
-}) {
-  const String saveText = "Save"; // Label for discount
-
-  // Calculate new price from original price and discount
-  double originalPriceValue = double.parse(originalPrice.replaceAll(RegExp(r'[^0-9.]'), '')); // Remove currency symbols
-  double discountValue = double.parse(discount.replaceAll(RegExp(r'[^0-9.]'), '')); // Remove currency symbols
-  double newPriceValue = originalPriceValue - discountValue; // Calculate new price
-  String newPrice = newPriceValue.toStringAsFixed(2); // Format to two decimal places
-
-  return GestureDetector(
-    onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MenuCouponDetail(
-            menuName: menuName,
-            imageUrl: imageUrl,
-            restaurantName: restaurantName,
-            discount: discount,
-            location: location,
-            startDate: startDate,
-            endDate: endDate,
-            originalPrice: originalPrice,
-            amount: amount,
-          ),
-        ),
-      );
-    },
-    child: Container(
-      width: 120,
-      margin: EdgeInsets.only(right: 10),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.white,
-      ),
-      child: Stack(
-        children: [
-          Positioned(
-            top: 40, // Adjust as needed
-            right: 0, // Adjust as needed
-            child: Container(
-              width: 120, // Width of the blue box
-              height: 120, // Height of the blue box
-              decoration: BoxDecoration(
-                color: Color(0xFFFEF6EB),
-                borderRadius: BorderRadius.circular(10), // Adjust the radius as needed
-              ),
-              child: Center(),
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Container(
+            Row(
+              children: [
+                Container(
                   width: 80,
                   height: 80,
                   margin: EdgeInsets.only(left: 0),
@@ -943,191 +613,585 @@ Widget _buildMenuCard({
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0, top: 5.0), // Only left padding
-                child: Text(
-                  menuName,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          originalPrice,
+                          storeName,
                           style: TextStyle(
-                            color: Colors.grey,
-                            decoration: TextDecoration.lineThrough,
-                            decorationColor: Colors.grey,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                            color: Colors.black,
                           ),
                         ),
-                        SizedBox(width: 8),
-                        Text(newPrice, style: TextStyle(color: Color(0xFFD04040), fontWeight: FontWeight.bold)),
+                        Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: promotionDetail,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              TextSpan(
+                                text:
+                                    '  $type', // Add type immediately after detail
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors
+                                      .grey, // Smaller font and grey color for the type
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Icon(Icons.location_on,
+                                size: 25, color: Color(0xFFFBC079)),
+                            SizedBox(width: 4),
+                            Text(location,
+                                style: TextStyle(color: Colors.black)),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(Icons.date_range,
+                                size: 25, color: Color(0xFFFBC079)),
+                            SizedBox(width: 4),
+                            Text('$startDate - $endDate',
+                                style: TextStyle(color: Colors.black)),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text('$couponsLeft coupons left',
+                                style: TextStyle(color: Color(0xFFD04040))),
+                            SizedBox(width: 8),
+                            ElevatedButton(
+                              onPressed: () {
+                                // Show the confirmation dialog
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      backgroundColor: Colors
+                                          .white, // Set the background color to white
+                                      content: Text(
+                                        "When you collect the coupon, you'll have 2 hours to use it.",
+                                        textAlign: TextAlign
+                                            .center, // Center align the text itself
+                                        style: TextStyle(
+                                          fontWeight: FontWeight
+                                              .bold, // Make the text bold
+                                          fontSize:
+                                              18, // Increase font size (adjust as needed)
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        Center(
+                                          // Center the Column horizontally
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize
+                                                .min, // Ensure the column takes only as much space as needed
+                                            children: [
+                                              // Agree Button
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  color: Color(
+                                                      0xFFFBC079), // Sausage color (adjust as needed)
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30), // Rounded corners
+                                                ),
+                                                child: TextButton(
+                                                  onPressed: () {
+                                                    // Handle agree action
+                                                    Navigator.of(context)
+                                                        .pop(); // Close the dialog
+                                                    print(
+                                                        'User agreed to the coupon terms');
+                                                  },
+                                                  child: Text(
+                                                    'Agree',
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight
+                                                          .bold, // Make the button text bold
+                                                      fontSize:
+                                                          18, // Increase button text size (adjust as needed)
+                                                      color: Colors
+                                                          .black, // Text color
+                                                    ),
+                                                  ),
+                                                  style: TextButton.styleFrom(
+                                                    padding: EdgeInsets.symmetric(
+                                                        vertical: 10,
+                                                        horizontal:
+                                                            40), // Add padding for height and width
+                                                    minimumSize: Size(200,
+                                                        30), // Increased minimum button width
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                  height:
+                                                      10), // Add space between buttons
+                                              // Back Button
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  color: Colors
+                                                      .grey, // Make it the same color as the Agree button
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          30), // Rounded corners
+                                                ),
+                                                child: TextButton(
+                                                  onPressed: () {
+                                                    // Handle back action
+                                                    Navigator.of(context)
+                                                        .pop(); // Close the dialog
+                                                  },
+                                                  child: Text(
+                                                    'Back',
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight
+                                                          .bold, // Make the button text bold
+                                                      fontSize:
+                                                          18, // Increase button text size (adjust as needed)
+                                                      color: Colors
+                                                          .white, // Text color
+                                                    ),
+                                                  ),
+                                                  style: TextButton.styleFrom(
+                                                    padding: EdgeInsets.symmetric(
+                                                        vertical: 10,
+                                                        horizontal:
+                                                            40), // Add padding for height and width
+                                                    minimumSize: Size(200,
+                                                        30), // Increased minimum button width
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                              child: Text(
+                                'Collect',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFFFBC079),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 4),
+                                minimumSize: Size(80, 30),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(7),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Text(saveText, style: TextStyle(color: Colors.grey, fontSize: 10)), // Changed to "Discount"
-                        SizedBox(width: 3),
-                        Text(discount, style: TextStyle(color: Color(0xFFD04040), fontSize: 10)), // Changed to discount
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Positioned(
-            bottom: 0, // Position it lower
-            right: 5,  // Position it to the right
-            child: ElevatedButton(
-             onPressed: () {
-  // Show the confirmation dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        backgroundColor: Colors.white, // Set the background color to white
-        content: Text(
-          "When you collect the coupon, you'll have 2 hours to use it.",
-          textAlign: TextAlign.center, // Center align the text itself
-          style: TextStyle(
-            fontWeight: FontWeight.bold, // Make the text bold
-            fontSize: 18, // Increase font size (adjust as needed)
-          ),
-        ),
-        actions: <Widget>[
-          Center( // Center the Column horizontally
-            child: Column(
-              mainAxisSize: MainAxisSize.min, // Ensure the column takes only as much space as needed
-              children: [
-                // Agree Button
-                Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFBC079), // Sausage color (adjust as needed)
-                    borderRadius: BorderRadius.circular(30), // Rounded corners
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      // Handle agree action
-                      Navigator.of(context).pop(); // Close the dialog
-                      print('User agreed to the coupon terms');
-                    },
-                    child: Text(
-                      'Agree',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold, // Make the button text bold
-                        fontSize: 18, // Increase button text size (adjust as needed)
-                        color: Colors.black, // Text color
-                      ),
-                    ),
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40), // Add padding for height and width
-                      minimumSize: Size(200, 30), // Increased minimum button width
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10), // Add space between buttons
-                // Back Button
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey, // Make it the same color as the Agree button
-                    borderRadius: BorderRadius.circular(30), // Rounded corners
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      // Handle back action
-                      Navigator.of(context).pop(); // Close the dialog
-                    },
-                    child: Text(
-                      'Back',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold, // Make the button text bold
-                        fontSize: 18, // Increase button text size (adjust as needed)
-                        color: Colors.white, // Text color
-                      ),
-                    ),
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40), // Add padding for height and width
-                      minimumSize: Size(200, 30), // Increased minimum button width
                     ),
                   ),
                 ),
               ],
             ),
-          ),
-        ],
-      );
-    },
-  );
-},
+          ],
+        ),
+      ),
+    );
+  }
 
-              child: Text(
-                'Collect',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12,
+  Widget _buildRestaurantCard({
+    required String imageUrl,
+    required String restaurantName,
+    required String description,
+  }) {
+    return Container(
+      margin: EdgeInsets.only(bottom: 16),
+      child: Column(
+        children: [
+          SizedBox(height: 20),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(width: 5),
+              Container(
+                width: 70,
+                height: 70,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: Color(0xFFFBC079), width: 4),
+                  image: DecorationImage(
+                    image: NetworkImage(imageUrl),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFFBC079),
-                padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                minimumSize: Size(50, 20),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5),
+              SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      restaurantName,
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                    Text(
+                      description,
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ],
+                ),
+              ),
+              Align(
+                alignment: Alignment.topRight,
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Restaurant(
+                            restaurantName:
+                                restaurantName), // Pass the restaurant name here
+                      ),
+                    );
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'view restaurant',
+                        style: TextStyle(
+                            color: Colors.grey), // Set text color to black
+                      ),
+                      SizedBox(width: 0),
+                      Icon(
+                        Icons.chevron_right,
+                        size: 30,
+                        color: Colors.grey, // Set icon color to black
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 15),
+          Divider(color: Colors.grey, thickness: 1),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMenuCard({
+    required String imageUrl,
+    required String menuName,
+    required String originalPrice,
+    required String discount,
+    required String restaurantName,
+    required String location,
+    required String startDate,
+    required String endDate,
+    required String amount,
+  }) {
+    const String saveText = "Save"; // Label for discount
+
+    // Calculate new price from original price and discount
+    double originalPriceValue = double.parse(originalPrice.replaceAll(
+        RegExp(r'[^0-9.]'), '')); // Remove currency symbols
+    double discountValue = double.parse(
+        discount.replaceAll(RegExp(r'[^0-9.]'), '')); // Remove currency symbols
+    double newPriceValue =
+        originalPriceValue - discountValue; // Calculate new price
+    String newPrice =
+        newPriceValue.toStringAsFixed(2); // Format to two decimal places
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MenuCouponDetail(
+              menuName: menuName,
+              imageUrl: imageUrl,
+              restaurantName: restaurantName,
+              discount: discount,
+              location: location,
+              startDate: startDate,
+              endDate: endDate,
+              originalPrice: originalPrice,
+              amount: amount,
+            ),
+          ),
+        );
+      },
+      child: Container(
+        width: 120,
+        margin: EdgeInsets.only(right: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Colors.white,
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+              top: 40, // Adjust as needed
+              right: 0, // Adjust as needed
+              child: Container(
+                width: 120, // Width of the blue box
+                height: 120, // Height of the blue box
+                decoration: BoxDecoration(
+                  color: Color(0xFFFEF6EB),
+                  borderRadius:
+                      BorderRadius.circular(10), // Adjust the radius as needed
+                ),
+                child: Center(),
+              ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Container(
+                    width: 80,
+                    height: 80,
+                    margin: EdgeInsets.only(left: 0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(color: Color(0xFFFBC079), width: 4),
+                      image: DecorationImage(
+                        image: NetworkImage(imageUrl),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      left: 8.0, top: 5.0), // Only left padding
+                  child: Text(
+                    menuName,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            originalPrice,
+                            style: TextStyle(
+                              color: Colors.grey,
+                              decoration: TextDecoration.lineThrough,
+                              decorationColor: Colors.grey,
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          Text(newPrice,
+                              style: TextStyle(
+                                  color: Color(0xFFD04040),
+                                  fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Text(saveText,
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 10)), // Changed to "Discount"
+                          SizedBox(width: 3),
+                          Text(discount,
+                              style: TextStyle(
+                                  color: Color(0xFFD04040),
+                                  fontSize: 10)), // Changed to discount
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Positioned(
+              bottom: 0, // Position it lower
+              right: 5, // Position it to the right
+              child: ElevatedButton(
+                onPressed: () {
+                  // Show the confirmation dialog
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        backgroundColor:
+                            Colors.white, // Set the background color to white
+                        content: Text(
+                          "When you collect the coupon, you'll have 2 hours to use it.",
+                          textAlign:
+                              TextAlign.center, // Center align the text itself
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold, // Make the text bold
+                            fontSize:
+                                18, // Increase font size (adjust as needed)
+                          ),
+                        ),
+                        actions: <Widget>[
+                          Center(
+                            // Center the Column horizontally
+                            child: Column(
+                              mainAxisSize: MainAxisSize
+                                  .min, // Ensure the column takes only as much space as needed
+                              children: [
+                                // Agree Button
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Color(
+                                        0xFFFBC079), // Sausage color (adjust as needed)
+                                    borderRadius: BorderRadius.circular(
+                                        30), // Rounded corners
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      // Handle agree action
+                                      Navigator.of(context)
+                                          .pop(); // Close the dialog
+                                      print('User agreed to the coupon terms');
+                                    },
+                                    child: Text(
+                                      'Agree',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight
+                                            .bold, // Make the button text bold
+                                        fontSize:
+                                            18, // Increase button text size (adjust as needed)
+                                        color: Colors.black, // Text color
+                                      ),
+                                    ),
+                                    style: TextButton.styleFrom(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 10,
+                                          horizontal:
+                                              40), // Add padding for height and width
+                                      minimumSize: Size(200,
+                                          30), // Increased minimum button width
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                    height: 10), // Add space between buttons
+                                // Back Button
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors
+                                        .grey, // Make it the same color as the Agree button
+                                    borderRadius: BorderRadius.circular(
+                                        30), // Rounded corners
+                                  ),
+                                  child: TextButton(
+                                    onPressed: () {
+                                      // Handle back action
+                                      Navigator.of(context)
+                                          .pop(); // Close the dialog
+                                    },
+                                    child: Text(
+                                      'Back',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight
+                                            .bold, // Make the button text bold
+                                        fontSize:
+                                            18, // Increase button text size (adjust as needed)
+                                        color: Colors.white, // Text color
+                                      ),
+                                    ),
+                                    style: TextButton.styleFrom(
+                                      padding: EdgeInsets.symmetric(
+                                          vertical: 10,
+                                          horizontal:
+                                              40), // Add padding for height and width
+                                      minimumSize: Size(200,
+                                          30), // Increased minimum button width
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: Text(
+                  'Collect',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFFFBC079),
+                  padding: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                  minimumSize: Size(50, 20),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    ),
-  );
-}
+    );
+  }
 
-
-
-Widget _buildMenuList(List<Map<String, String>> menuItems) {
-  return Container(
-    height: 165, // Adjust height as needed
-    child: ListView.builder(
-      scrollDirection: Axis.horizontal,
-      itemCount: menuItems.length,
-      itemBuilder: (context, index) {
-        return _buildMenuCard(
-          imageUrl: menuItems[index]['imageUrl']!,
-          menuName: menuItems[index]['menuName']!,
-          originalPrice: menuItems[index]['originalPrice']!,
-          discount: menuItems[index]['discount']!,
-          restaurantName: menuItems[index]['restaurantName']!,
-          location: menuItems[index]['location']!,
-          startDate: menuItems[index]['startDate']!,
-          endDate: menuItems[index]['endDate']!,
-          amount: menuItems[index]['amount']!,
-        );
-      },
-    ),
-  );
-}
-
-
-
-
-
-
-
+  Widget _buildMenuList(List<Map<String, String>> menuItems) {
+    return Container(
+      height: 165, // Adjust height as needed
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: menuItems.length,
+        itemBuilder: (context, index) {
+          return _buildMenuCard(
+            imageUrl: menuItems[index]['imageUrl']!,
+            menuName: menuItems[index]['menuName']!,
+            originalPrice: menuItems[index]['originalPrice']!,
+            discount: menuItems[index]['discount']!,
+            restaurantName: menuItems[index]['restaurantName']!,
+            location: menuItems[index]['location']!,
+            startDate: menuItems[index]['startDate']!,
+            endDate: menuItems[index]['endDate']!,
+            amount: menuItems[index]['amount']!,
+          );
+        },
+      ),
+    );
+  }
 }

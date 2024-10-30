@@ -4,6 +4,9 @@ import 'page/mycoupons_page.dart';
 import 'page/realhome_page.dart';
 
 class HomePage extends StatefulWidget {
+  final String token;
+  final String id;
+  HomePage({required this.token, required this.id});
   @override
   _HomePageState createState() => _HomePageState();
 }

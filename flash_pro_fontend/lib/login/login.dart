@@ -45,14 +45,21 @@ class _LoginState extends State<Login> {
     });
     try {
       final response = await http.post(apiUrl, headers: header, body: data);
-      debugPrint(response.body);
+      debugPrint('Response:${response.body}');
 
       if (response.statusCode == 201) {
         final responseData = jsonDecode(response.body);
-        print('Sign-In successful: ${responseData['message']}');
+        debugPrint('Sign-In successful: ${responseData['message']}');
+        final token = responseData['accessToken'];
+        final id = responseData['user']['_doc']['_id'];
+        debugPrint('Token:${token}');
+        debugPrint('id:${id}');
         // add when merge
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => ChooseFavoriteAccount()));
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    ChooseFavoriteAccount(token: token, id: id)));
       } else {
         final errorData = jsonDecode(response.body);
         debugPrint(errorData);

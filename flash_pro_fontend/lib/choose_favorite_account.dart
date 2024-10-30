@@ -1,23 +1,10 @@
 import 'package:flutter/material.dart';
 import 'home_page.dart'; // Import the HomePage
-// void main() {
-//   runApp(MyApp());
-// }
-
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Food Preference',
-//       theme: ThemeData(
-//         primarySwatch: Colors.green,
-//       ),
-//       home: ChooseFavoriteAccount(),
-//     );
-//   }
-// }
 
 class ChooseFavoriteAccount extends StatefulWidget {
+  final String token;
+  final String id; //receive the token from the previous page
+  ChooseFavoriteAccount({required this.token, required this.id});
   @override
   _ChooseFavoriteAccountState createState() => _ChooseFavoriteAccountState();
 }
@@ -48,16 +35,17 @@ class _ChooseFavoriteAccountState extends State<ChooseFavoriteAccount> {
   void _submitSelection() {
     // Return to the previous page
     // Navigator.pop(context);
+    debugPrint('Token:${widget.token},\n id: ${widget.id}');
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(builder: (context) => HomePage()),
+      MaterialPageRoute(
+          builder: (context) => HomePage(token: widget.token, id: widget.id)),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final textStyle = TextStyle(fontSize: 16, color: Colors.black);
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

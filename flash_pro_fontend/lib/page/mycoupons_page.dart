@@ -36,13 +36,14 @@ class MyCouponsPage extends StatelessWidget {
         ),
       );
 
-  Widget _buildVerticalPromotionList(BuildContext context, List<Map<String, String>> promotions) {
+  Widget _buildVerticalPromotionList(
+      BuildContext context, List<Map<String, String>> promotions) {
     return Container(
       margin: EdgeInsets.only(top: 20),
       child: Column(
         children: promotions.map((promotion) {
           return _buildVerticalPromotionCard(
-            context,  // Pass the context here
+            context, // Pass the context here
             imageUrl: promotion['imageUrl']!,
             storeName: promotion['storeName']!,
             promotionDetail: promotion['promotionInfo']!,
@@ -58,7 +59,8 @@ class MyCouponsPage extends StatelessWidget {
   }
 
   Widget _buildVerticalPromotionCard(
-    BuildContext context, { // Add context as a parameter
+    BuildContext context, {
+    // Add context as a parameter
     required String imageUrl,
     required String storeName,
     required String promotionDetail,
@@ -137,46 +139,65 @@ class MyCouponsPage extends StatelessWidget {
                       children: [
                         Text(
                           storeName,
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Colors.black),
                         ),
                         Row(
                           children: [
                             Text(
                               promotionDetail,
-                              style: TextStyle(fontSize: 20, color: Colors.black),
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.black),
                             ),
-                            SizedBox(width: 8), // Small gap between promotionDetail and type
+                            SizedBox(
+                                width:
+                                    8), // Small gap between promotionDetail and type
                             Text(
                               type,
-                              style: TextStyle(fontSize: 16, color: Colors.grey),
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.grey),
                             ),
                           ],
                         ),
                         SizedBox(height: 4),
                         Row(
                           children: [
-                            Icon(Icons.location_on, size: 25, color: Color(0xFFFBC079)),
+                            Icon(Icons.location_on,
+                                size: 25, color: Color(0xFFFBC079)),
                             SizedBox(width: 4),
-                            Text(location, style: TextStyle(color: Colors.black)),
+                            Text(location,
+                                style: TextStyle(color: Colors.black)),
                           ],
                         ),
                         Row(
                           children: [
-                            Icon(Icons.date_range, size: 25, color: Color(0xFFFBC079)),
+                            Icon(Icons.date_range,
+                                size: 25, color: Color(0xFFFBC079)),
                             SizedBox(width: 4),
-                            Text('${startDateTime.toLocal().toString().split(' ')[0]} - ${endDateTime.toLocal().toString().split(' ')[0]}', style: TextStyle(color: Colors.black)),
+                            Text(
+                                '${startDateTime.toLocal().toString().split(' ')[0]} - ${endDateTime.toLocal().toString().split(' ')[0]}',
+                                style: TextStyle(color: Colors.black)),
                           ],
                         ),
                         Row(
                           children: [
-                            Text('Time remaining: $timeRemaining', style: TextStyle(color: Color(0xFFD04040))),
+                            Text('Time remaining: $timeRemaining',
+                                style: TextStyle(color: Color(0xFFD04040))),
                             Spacer(),
                             OutlinedButton(
                               onPressed: () {},
-                              child: Text('Use', style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold)),
+                              child: Text('Use',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold)),
                               style: OutlinedButton.styleFrom(
-                                side: BorderSide(color: Color(0xFFFBC079), width: 2),
-                                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                side: BorderSide(
+                                    color: Color(0xFFFBC079), width: 2),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 8, vertical: 4),
                                 minimumSize: Size(80, 30),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(7),
