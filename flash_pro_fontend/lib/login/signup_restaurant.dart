@@ -46,7 +46,7 @@ class _SignUpRestaurantState extends State<SignUpRestaurant> {
       isLoading = true;
     });
     // set the Url for your device 10.0.2.3
-    const String apiUrl = 'http://localhost:3000/api/users';
+    const String apiUrl = 'https://flash.mupingdev.org/api/users';
     var header = {
       'Content-Type': 'application/json',
     };
@@ -66,7 +66,7 @@ class _SignUpRestaurantState extends State<SignUpRestaurant> {
         headers: header,
         body: json.encode(data),
       );
-
+      debugPrint(response.body);
       if (response.statusCode == 201) {
         final responseData = json.decode(response.body);
         print('Sign-up successful: ${responseData['message']}');

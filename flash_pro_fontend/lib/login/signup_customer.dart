@@ -36,7 +36,7 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
   Future<void> signUp() async {
     if (!_formKey.currentState!.validate()) return;
     // set Url fpr Your device 10.0.2.3
-    final apiUrl = Uri.parse('http://localhost:3000/api/users');
+    final apiUrl = Uri.parse('https://flash.mupingdev.org/api/users');
     final header = {'Content-Type': 'application/json'};
 
     List<String> nameParts = fullNameController.text.split(' ');
@@ -51,7 +51,7 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
         "firstName": firstName,
         "lastName": lastName,
         "phoneNumber": telController.text,
-        "birthDate": "xxxx-xx-xx" // Expected format: YYYY-MM-DD
+        "birthDate": "1990-01-01" // Expected format: YYYY-MM-DD
       }
     });
 
@@ -61,8 +61,8 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
 
     try {
       final response = await http.post(apiUrl, headers: header, body: data);
-
-      if (response.statusCode == 200) {
+      debugPrint(response.body);
+      if (response.statusCode == 201) {
         final responseData = jsonDecode(response.body);
         print('Sign-up successful: ${responseData['message']}');
 
@@ -85,6 +85,7 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
         );
       } else {
         final errorData = jsonDecode(response.body);
+        debugPrint(errorData);
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -100,7 +101,7 @@ class _SignUpCustomerState extends State<SignUpCustomer> {
         );
       }
     } catch (error) {
-      print('Error: $error');
+      debugPrint('Error: $error');
       showDialog(
         context: context,
         builder: (context) => AlertDialog(

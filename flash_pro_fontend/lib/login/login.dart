@@ -28,12 +28,52 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
-  void login() {
-    if (_formKey.currentState!.validate()) {
-      setState(() => isLoading = true);
-      // Perform login logic, then reset loading state
-      Future.delayed(const Duration(seconds: 2), () {
-        setState(() => isLoading = false);
+  Future<void> login() async {
+    if (!_formKey.currentState!.validate()) return;
+    final apiUrl = Uri.parse('https://flash.mupingdev.org/api/auth/login');
+    final header = {'Content-Type': 'application/json'};
+    String email = emailController.text;
+    String password = passwordController.text;
+
+    final data = jsonEncode({
+      'email': email,
+      'password': password,
+    });
+    setState(() {
+      isLoading = true;
+    });
+    try {
+      final response = await http.post(apiUrl, headers: header, body: data);
+      debugPrint(response.body);
+
+      if (response.statusCode == 201) {
+        final responseData = jsonDecode(response.body);
+        print('Sign-In successful: ${responseData['message']}');
+        // add when merge
+        // Navigator.push(
+        //     context, MaterialPageRoute(builder: (context) => const Login()));
+      } else {
+        final errorData = jsonDecode(response.body);
+        debugPrint(errorData);
+      }
+    } catch (error) {
+      debugPrint('Error: $error');
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Error'),
+          content: const Text('An error occurred. Please try again later.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('OK'),
+            ),
+          ],
+        ),
+      );
+    } finally {
+      setState(() {
+        isLoading = false;
       });
     }
   }
