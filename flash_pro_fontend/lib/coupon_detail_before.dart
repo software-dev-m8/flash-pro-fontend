@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:qr_flutter/qr_flutter.dart'; // Import QR code package
+import 'package:flutter_application_1/restaurant_page.dart';
 
 void main() {
   runApp(
@@ -106,12 +107,13 @@ class _CouponDetailState extends State<CouponDetail> {
                 leading: IconButton(
                   icon: Icon(Icons.arrow_back),
                   onPressed: () {
+                    Navigator.of(context).pop();
                     //Define the action on click
                   },
                 ),
               ),
               Container(
-                height: 10,
+                height: 8,
                 decoration: BoxDecoration(
                   color: const Color(0xFFFBC079),
                   boxShadow: [
@@ -143,7 +145,7 @@ class _CouponDetailState extends State<CouponDetail> {
             right: 0,
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 2),
-              height: containerHeight,
+              // height: containerHeight,
               decoration: const BoxDecoration(
                 color: Color(0xFFFBC079),
                 borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
@@ -164,40 +166,8 @@ class _CouponDetailState extends State<CouponDetail> {
                           ),
                         ],
                       ),
-                      child: Positioned(
-                        top: 100, // ปรับตามความสูงที่ต้องการให้รูปอยู่ตรงไหน
-                        left: MediaQuery.of(context).size.width / 2 -
-                            75, // กึ่งกลางหน้าจอ
-                        child: Container(
-                          width: 150, // กำหนดความกว้างของ container
-                          height: 150, // กำหนดความสูงของ container
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(75), // ขอบมน
-                            border: Border.all(
-                                color: Colors.white, width: 4), // ขอบสีขาว
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5), // เงา
-                                spreadRadius: 2,
-                                blurRadius: 5,
-                                offset: const Offset(0, 3), // เงาไปด้านล่าง
-                              ),
-                            ],
-                          ),
-                          child: ClipOval(
-                            child: Image.network(
-                              widget
-                                  .imageUrl, // ใช้ URL ของรูปที่ดึงมาจาก widget
-                              width: 150, // ปรับขนาดให้เหมาะสม
-                              height: 150, // ปรับขนาดให้เหมาะสม
-                              fit: BoxFit
-                                  .cover, // ใช้ BoxFit.cover เพื่อให้ครอบเต็มพื้นที่
-                            ),
-                          ),
-                        ),
-                      ),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 120),
                     Container(
                       height: containerHeight,
                       decoration: const BoxDecoration(
@@ -209,6 +179,7 @@ class _CouponDetailState extends State<CouponDetail> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          SizedBox(height: 60),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -222,14 +193,21 @@ class _CouponDetailState extends State<CouponDetail> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  // Add view restaurant logic
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Restaurant(
+                                          restaurantName: widget
+                                              .restaurantName), // Pass the restaurant name here
+                                    ),
+                                  );
                                 },
                                 child: const Text(
                                   "View restaurant >",
                                   style: TextStyle(
                                     fontSize: 14,
                                     color: Colors.grey,
-                                    decoration: TextDecoration.underline,
+                                    // decoration: TextDecoration.underline,
                                   ),
                                 ),
                               ),
@@ -287,32 +265,48 @@ class _CouponDetailState extends State<CouponDetail> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 30),
+                          const SizedBox(height: 20),
                           //show the time text before click the button
                           if (_isTextMove) ...[
-                            const Center(
-                              child: Row(
-                                mainAxisSize: MainAxisSize
-                                    .min, // Ensures the row takes minimum space
-                                children: [
-                                  Icon(
-                                    Icons.access_time_filled,
-                                    color: Color(0xFF44A9A5),
+                            Align(
+                              alignment: Alignment
+                                  .center, // Aligns the container to the right
+                              child: Container(
+                                width: 220,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[
+                                      300], // Background color for the grey sausage
+                                  borderRadius: BorderRadius.circular(
+                                      20), // Rounded edges
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 16,
+                                    vertical: 8), // Padding around the content
+                                child: Center(
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize
+                                        .min, // Ensures the row takes minimum space
+                                    children: [
+                                      Icon(
+                                        Icons.access_time_filled,
+                                        color: Color(0xFF44A9A5),
+                                      ),
+                                      SizedBox(
+                                          width:
+                                              8), // Adds some space between the icon and text
+                                      Text(
+                                        "TIME REMAINING",
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          color: Color(0xFF44A9A5),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(
-                                      width:
-                                          8), // Adds some space between the icon and text
-                                  Text(
-                                    "TIME REMAINING",
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      color: Color(0xFF44A9A5),
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
-                            )
+                            ),
                           ],
 
                           const SizedBox(height: 20),
@@ -383,6 +377,17 @@ class _CouponDetailState extends State<CouponDetail> {
                           if (showQrCode) ...[
                             // const SizedBox(height: 2),
                             Center(
+                                child: Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Color(
+                                      0xFFFBC079), // Change this to your desired border color
+                                  width:
+                                      7.0, // Change this to your desired border width
+                                ),
+                                borderRadius: BorderRadius.circular(
+                                    10.0), // Optional: For rounded corners
+                              ),
                               child: QrImageView(
                                 data:
                                     'https://www.example.com/coupon', // Customize this with your actual data
@@ -390,7 +395,8 @@ class _CouponDetailState extends State<CouponDetail> {
                                 size: 250.0,
                                 backgroundColor: Colors.white,
                               ),
-                            ),
+                            )),
+                            SizedBox(height: 10),
                             const Center(
                               child: Row(
                                 mainAxisSize: MainAxisSize
@@ -414,7 +420,7 @@ class _CouponDetailState extends State<CouponDetail> {
                                 ],
                               ),
                             ),
-                            const SizedBox(height: 20),
+                            // const SizedBox(height: 0),
                             Center(
                                 child: Text(
                               '${_remainingTime.inHours.toString().padLeft(2, '0')} : ${(_remainingTime.inMinutes % 60).toString().padLeft(2, '0')} : ${(_remainingTime.inSeconds % 60).toString().padLeft(2, '0')}',
@@ -424,7 +430,7 @@ class _CouponDetailState extends State<CouponDetail> {
                                   fontWeight: FontWeight.bold),
                               textAlign: TextAlign.center,
                             )),
-                            const SizedBox(height: 10),
+                            // const SizedBox(height: 10),
                             const Center(
                                 child: Text(
                               "Hours : Minutes : Seconds",
@@ -442,29 +448,66 @@ class _CouponDetailState extends State<CouponDetail> {
                 ),
               )),
             ),
-          )
+          ),
+          Positioned(
+            top: 10,
+            left: 106,
+            child: Container(
+              width: 200, // Fixed width for the square
+              height: 200, // Fixed height for the square
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(
+                    20), // Adjust this value for the roundness
+                // border: Border.all(color: Colors.white, width: 4), // White border
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3), // Shadow color
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3), // Shadow offset
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(
+                    20), // Match the container's border radius
+                child: Image.network(
+                  widget.imageUrl, // Image URL from the widget
+                  width: 200, // Fixed width for the image
+                  height: 200, // Fixed height for the image
+                  fit: BoxFit.cover, // Cover the container
+                  errorBuilder: (context, error, stackTrace) {
+                    return Container(
+                      color: Colors.grey, // Placeholder color
+                      child: Icon(Icons.error, color: Colors.red), // Error icon
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.card_giftcard),
-            label: 'Coupon',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: const Color(0xFFFBC079),
-        unselectedItemColor: Colors.grey,
-        onTap: _onItemTapped,
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   items: const [
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.home),
+      //       label: 'Home',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.card_giftcard),
+      //       label: 'Coupon',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.person),
+      //       label: 'Profile',
+      //     ),
+      //   ],
+      //   currentIndex: _selectedIndex,
+      //   selectedItemColor: const Color(0xFFFBC079),
+      //   unselectedItemColor: Colors.grey,
+      //   onTap: _onItemTapped,
+      // ),
     );
   }
 }
