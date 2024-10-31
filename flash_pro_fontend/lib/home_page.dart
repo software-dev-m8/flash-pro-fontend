@@ -6,7 +6,9 @@ import 'page/realhome_page.dart';
 class HomePage extends StatefulWidget {
   final String token;
   final String id;
+
   HomePage({required this.token, required this.id});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -14,25 +16,26 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String searchQuery = '';
   int _selectedIndex = 0;
-  // String? _selectedSize;
 
-  final screens = [
-    RealHomePage(),
-    MyCouponsPage(),
-    AccountPage(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  late List<Widget> screens;
 
   @override
   void initState() {
     super.initState();
+    screens = [
+      RealHomePage(),
+      MyCouponsPage(),
+      AccountPage(
+          token: widget.token, id: widget.id), // ส่ง token และ id ที่นี่
+    ];
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _showAdDialog();
+    });
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
     });
   }
 
@@ -57,9 +60,8 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.transparent,
                 ),
                 child: Center(
-                  // add the image
                   child: Image.network(
-                    'https://via.placeholder.com/550x300', // Replace with your image URL
+                    'https://via.placeholder.com/550x300', // เปลี่ยน URL รูปภาพตามต้องการ
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -85,7 +87,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: _selectedIndex != 1 // Only show AppBar for the MyCoupons page
+      appBar: _selectedIndex != 1 // แสดง AppBar เฉพาะในหน้า MyCoupons
           ? null
           : AppBar(
               backgroundColor: Color(0xFFFBC079),
@@ -113,9 +115,7 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               Icon(Icons.search,
                                   color: Color(0xFFFBC079), size: 30),
-                              SizedBox(
-                                  width:
-                                      0), // Adjust this value to move the text closer
+                              SizedBox(width: 0),
                               Text(
                                 'Search',
                                 style:
