@@ -112,7 +112,7 @@ class _SignUpRestaurantState extends State<SignUpRestaurant> {
         context: context,
         builder: (context) => AlertDialog(
           title: const Text('Error'),
-          content: const Text('An error occurred. Please try again later.'),
+          content: const Text('An error occurred. Please try again.'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
