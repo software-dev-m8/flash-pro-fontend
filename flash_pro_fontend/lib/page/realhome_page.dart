@@ -16,12 +16,6 @@ class _RealHomePageState extends State<RealHomePage> {
   String searchQuery = '';
   String? _selectedSize;
   bool _isSearching = false; // Track if search is active
-  // get allCoupons
-  Future<void> getAllCoupons() async {
-    final apiUrl = Uri.parse('https://flash.mupingdev.org/api/coupons');
-    final response = await http.get(apiUrl);
-    debugPrint(response.body);
-  }
 
   final List<Map<String, String>> menuItems = [
     {
@@ -135,7 +129,8 @@ class _RealHomePageState extends State<RealHomePage> {
                                           setState(() {
                                             _selectedSize = value;
                                           });
-                                          Navigator.pop(context);
+                                          // Navigator.pop(context);
+                                          Navigator.of(context).pop();
                                         },
                                       ),
                                       RadioListTile<String>(
@@ -147,7 +142,8 @@ class _RealHomePageState extends State<RealHomePage> {
                                           setState(() {
                                             _selectedSize = value;
                                           });
-                                          Navigator.pop(context);
+                                          // Navigator.pop(context);
+                                          Navigator.of(context).pop();
                                         },
                                       ),
                                       RadioListTile<String>(
@@ -159,7 +155,8 @@ class _RealHomePageState extends State<RealHomePage> {
                                           setState(() {
                                             _selectedSize = value;
                                           });
-                                          Navigator.pop(context);
+                                          // Navigator.pop(context);
+                                          Navigator.of(context).pop();
                                         },
                                       ),
                                     ],
