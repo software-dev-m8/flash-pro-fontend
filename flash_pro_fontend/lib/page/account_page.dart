@@ -1,11 +1,63 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/choose_favorite_account.dart';
+import '/login/first.dart';
 import 'package:flutter_application_1/history_page.dart';
 import 'package:flutter_application_1/editprofile_page.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+class AuthService {
+  final String token;
+  final String id;
+  AuthService({required this.token, required this.id});
+
+  Future<String> fetchAccountDetails() async {
+    final apiUrl = Uri.parse('https://flash.mupingdev.org/api/auth/me');
+    try {
+      final response = await http.get(apiUrl, headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        var name = data["_doc"]["profile"]["firstName"];
+        return name;
+      } else {
+        throw Exception('Failed to load account details');
+      }
+    } catch (error) {
+      throw Exception('Error fetching data: ${error}');
+    }
+  }
+
+  Future<void> logOut() async {
+    final apiUrl = Uri.parse('https://flash.mupingdev.org/api/auth/logout');
+    try {
+      final response = await http.post(apiUrl, headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      });
+
+      if (response.statusCode == 201) {
+        debugPrint('Logged out successfully');
+      } else {
+        debugPrint('Failed to log out');
+        debugPrint('${response.statusCode}');
+      }
+    } catch (error) {
+      debugPrint('Error logging out: ${error}');
+    }
+  }
+}
+
 class AccountPage extends StatelessWidget {
+  final String token;
+  final String id;
+  final AuthService authservice;
+  AccountPage({required this.token, required this.id})
+      : authservice = AuthService(token: token, id: id);
+
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: Colors.white,
@@ -47,12 +99,27 @@ class AccountPage extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: 10),
-                    Text(
-                      'Account Name',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
+                    // Using FutureBuilder to get account name
+                    FutureBuilder<String>(
+                      future: authservice.fetchAccountDetails(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator(); // Loading indicator while data is fetched
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else if (snapshot.hasData) {
+                          return Text(
+                            '${snapshot.data}',
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          );
+                        } else {
+                          return Text('No data available');
+                        }
+                      },
                     ),
                     Spacer(),
                     IconButton(
@@ -83,29 +150,17 @@ class AccountPage extends StatelessWidget {
                           TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                   trailing: Icon(Icons.chevron_right),
                   onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //       builder: (context) =>
-                    //           ChooseFavoriteAccount(token: token)),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ChooseFavoriteAccount(
+                                token: token,
+                                id: id,
+                              )),
+                    );
                   },
                 ),
               ),
-              // Divider(color: Colors.grey),
-              // Container(
-              //   height: 60,
-              //   child: ListTile(
-              //     title: Text('My Coupons', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              //     trailing: Icon(Icons.chevron_right),
-              //     onTap: () {
-              //       // Navigator.push(
-              //       //   context,
-              //       //   MaterialPageRoute(builder: (context) => HistoryPage()),
-              //       // );
-              //     },
-              //   ),
-              // ),
               Divider(color: Colors.grey),
               Container(
                 height: 60,
@@ -151,7 +206,7 @@ class AccountPage extends StatelessWidget {
               child: Text('Log Out?',
                   style: TextStyle(fontWeight: FontWeight.bold))),
           content: SizedBox(
-            height: 20, // Adjust height here
+            height: 20,
             child: Center(
                 child: Text('You can come back anytime',
                     style: TextStyle(fontSize: 18))),
@@ -173,16 +228,16 @@ class AccountPage extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                               fontSize: 20)),
                       onPressed: () {
-                        print('Log Out confirmed');
-                        Navigator.of(context).pop();
-                        // Add your logout logic here
+                        authservice.logOut();
+                        Navigator.pushReplacement(context,
+                            MaterialPageRoute(builder: (context) => First()));
                       },
                     ),
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 8), // Space between buttons
+            SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
