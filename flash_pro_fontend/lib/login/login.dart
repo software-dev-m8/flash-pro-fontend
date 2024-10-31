@@ -49,9 +49,10 @@ class _LoginState extends State<Login> {
 
       if (response.statusCode == 201) {
         final responseData = jsonDecode(response.body);
-        debugPrint('Sign-In successful: ${responseData['message']}');
+        debugPrint('Sign-In successful');
         final token = responseData['accessToken'];
         final id = responseData['user']['_doc']['_id'];
+        authMe(token);
         debugPrint('Token:${token}');
         debugPrint('id:${id}');
         // add when merge
@@ -70,7 +71,7 @@ class _LoginState extends State<Login> {
         context: context,
         builder: (context) => AlertDialog(
           title: const Text('Error'),
-          content: const Text('An error occurred. Please try again later.'),
+          content: const Text('Your email or password not collect.'),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
@@ -83,6 +84,42 @@ class _LoginState extends State<Login> {
       setState(() {
         isLoading = false;
       });
+    }
+  }
+
+  Future<void> authMe(String token) async {
+    final apiUrl = Uri.parse('https://flash.mupingdev.org/api/auth/me');
+    try {
+      final response = await http.get(apiUrl, headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      });
+
+      //check the response is OK
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+
+        debugPrint('Success: $data');
+      } else if (response.statusCode == 401) {
+        // Unauthorized
+        debugPrint('Unauthorized: Invalid token.');
+      } else if (response.statusCode == 403) {
+        // Forbidden
+        debugPrint('Forbidden: Access denied.');
+      } else if (response.statusCode == 404) {
+        // Not Found
+        debugPrint('Error: Endpoint not found.');
+      } else if (response.statusCode >= 500) {
+        // Server error
+        debugPrint('Server error: ${response.statusCode}');
+      } else {
+        // Unexpected error
+        debugPrint('Unexpected error: ${response.statusCode}');
+      }
+    } on http.ClientException catch (error) {
+      debugPrint('ClientException: ${error.message}');
+    } catch (error) {
+      debugPrint('Unexpected error: $error');
     }
   }
 
