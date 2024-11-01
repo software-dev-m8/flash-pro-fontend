@@ -8,6 +8,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class RealHomePage extends StatefulWidget {
+  final String token;
+  final String id;
+  RealHomePage({super.key, required this.id, required this.token});
+
   @override
   _RealHomePageState createState() => _RealHomePageState();
 }
@@ -44,6 +48,7 @@ class _RealHomePageState extends State<RealHomePage> {
         setState(() {
           recommendedCoupons = data.map((item) {
             return {
+              'id': item['_id'],
               'imageUrl':
                   item['couponImage'] ?? 'https://via.placeholder.com/150',
               'storeName': item['restaurantBranch'] ?? 'Unknown Branch',
@@ -415,6 +420,7 @@ class _RealHomePageState extends State<RealHomePage> {
         scrollDirection: Axis.horizontal,
         children: promotions.map((promotion) {
           return _buildPromotionCard(
+            couponId: promotion['id'],
             imageUrl: promotion['imageUrl']!,
             storeName: promotion['storeName']!,
             promotionInfo: promotion['promotionInfo']!,
@@ -430,6 +436,7 @@ class _RealHomePageState extends State<RealHomePage> {
   }
 
   Widget _buildPromotionCard({
+    required String couponId,
     required String imageUrl,
     required String storeName,
     required String promotionInfo,
@@ -446,6 +453,8 @@ class _RealHomePageState extends State<RealHomePage> {
           MaterialPageRoute(
             builder: (context) => CouponDetail(
               // menuName: menuName,
+              couponId: couponId,
+              userId: widget.id,
               imageUrl: imageUrl,
               restaurantName: storeName,
               discount: promotionInfo,
@@ -521,6 +530,7 @@ class _RealHomePageState extends State<RealHomePage> {
       child: Column(
         children: promotions.map((promotion) {
           return _buildVerticalPromotionCard(
+            couponId: promotion['id'],
             imageUrl: promotion['imageUrl']!,
             storeName: promotion['storeName']!,
             promotionDetail: promotion['promotionInfo']!,
@@ -536,6 +546,7 @@ class _RealHomePageState extends State<RealHomePage> {
   }
 
   Widget _buildVerticalPromotionCard({
+    required String couponId,
     required String imageUrl,
     required String storeName,
     required String promotionDetail,
@@ -552,6 +563,8 @@ class _RealHomePageState extends State<RealHomePage> {
           MaterialPageRoute(
             builder: (context) => CouponDetail(
               // menuName: menuName,
+              couponId: couponId,
+              userId: widget.id,
               imageUrl: imageUrl,
               restaurantName: storeName,
               discount: promotionDetail,
