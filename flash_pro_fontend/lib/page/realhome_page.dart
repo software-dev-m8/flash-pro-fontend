@@ -15,44 +15,57 @@ class RealHomePage extends StatefulWidget {
 class _RealHomePageState extends State<RealHomePage> {
   String searchQuery = '';
   String? _selectedSize;
-  bool _isSearching = false; // Track if search is active
+  bool _isSearching = false;
+  bool _isLoading = true;
+  String error = '';
 
-  final List<Map<String, String>> menuItems = [
-    {
-      'imageUrl': 'https://via.placeholder.com/80',
-      'menuName': 'Menu Item 1',
-      'originalPrice': '\$20',
-      'restaurantName': "Restaurant 1",
-      'discount': "30",
-      'location': "abc",
-      'startDate': "2024-10-01", // Example date format (YYYY-MM-DD)
-      'endDate': "2024-10-10", // Example date format (YYYY-MM-DD)
-      'amount': "200",
-    },
-    {
-      'imageUrl': 'https://via.placeholder.com/80',
-      'menuName': 'Menu Item 2',
-      'originalPrice': '\$30',
-      'restaurantName': "Restaurant 2",
-      'discount': "30",
-      'location': "abc",
-      'startDate': "2024-10-02",
-      'endDate': "2024-10-11",
-      'amount': "200",
-    },
-    {
-      'imageUrl': 'https://via.placeholder.com/80',
-      'menuName': 'Menu Item 3',
-      'originalPrice': '\$40',
-      'restaurantName': "Restaurant 3",
-      'discount': "30",
-      'location': "abc",
-      'startDate': "2024-10-03",
-      'endDate': "2024-10-12",
-      'amount': "200",
-    },
-    // Add more menu items as needed
-  ];
+  List<Map<String, dynamic>> recommendedCoupons = [];
+  List<Map<String, dynamic>> popularCoupons = [];
+  List<Map<String, dynamic>> searchResults = [];
+  List<Map<String, dynamic>> menuItems = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchRecommendedCoupons();
+  }
+
+  Future<void> _fetchRecommendedCoupons() async {
+    try {
+      final response = await http.get(
+        Uri.parse('https://flash.mupingdev.org/api/coupons'),
+        headers: {'Content-Type': 'application/json'},
+      );
+      debugPrint('Status Code: ${response.statusCode}');
+      debugPrint('Response Body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        setState(() {
+          recommendedCoupons = data.map((item) {
+            return {
+              'imageUrl':
+                  item['couponImage'] ?? 'https://via.placeholder.com/150',
+              'storeName': item['restaurantBranch'] ?? 'Unknown Branch',
+              'promotionInfo':
+                  '${item['discountPercent'] ?? 0}% off on ${item['foodName'] ?? 'items'}',
+              'location': item['restaurantBranch'] ?? 'Not specified',
+              'startDate': item['startDate'] ?? '',
+              'endDate': item['endDate'] ?? '',
+              'couponsLeft': item['amount']?.toString() ?? '0',
+              'type': item['couponType'] ?? 'General',
+            };
+          }).toList();
+          popularCoupons = recommendedCoupons; // Update based on your needs
+          menuItems = recommendedCoupons; // Update based on your needs
+        });
+      } else {
+        throw Exception('Failed to load recommended coupons');
+      }
+    } catch (e) {
+      debugPrint('error here: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -188,28 +201,7 @@ class _RealHomePageState extends State<RealHomePage> {
                   description: 'A great place for delicious food!',
                 ),
               if (_isSearching) // Show vertical promotion list if searching
-                _buildVerticalPromotionList([
-                  {
-                    'imageUrl': 'https://via.placeholder.com/80',
-                    'storeName': 'Store X',
-                    'promotionInfo': 'Special offer!',
-                    'location': '123 Main St',
-                    'startDate': '2024-10-01', // Updated startDate format
-                    'endDate': '2024-10-10', // Updated endDate format
-                    'couponsLeft': '5',
-                    'type': 'Discount',
-                  },
-                  {
-                    'imageUrl': 'https://via.placeholder.com/80',
-                    'storeName': 'Store Y',
-                    'promotionInfo': 'Limited time deal!',
-                    'location': '456 Elm St',
-                    'startDate': '2024-11-01', // Updated startDate format
-                    'endDate': '2024-11-30', // Updated endDate format
-                    'couponsLeft': '10',
-                    'type': 'Exclusive',
-                  },
-                ]),
+                _buildVerticalPromotionList(popularCoupons),
 
               if (_isSearching) _buildMenuList(menuItems),
 
@@ -258,48 +250,50 @@ class _RealHomePageState extends State<RealHomePage> {
               if (!_isSearching) SizedBox(height: 10),
 
               if (!_isSearching)
-                _buildPromotionList([
-                  {
-                    'imageUrl': 'https://via.placeholder.com/150',
-                    'storeName': 'Store 1',
-                    'promotionInfo': '20% off on all items!',
-                    'location': '123 Main St',
-                    'startDate': '2024-10-01',
-                    'endDate': '2024-10-31',
-                    'couponsLeft': '5',
-                    'type': 'Discount',
-                  },
-                  {
-                    'imageUrl': 'https://via.placeholder.com/150',
-                    'storeName': 'Store 2',
-                    'promotionInfo': 'Buy one get one free!',
-                    'location': '789 Pine St',
-                    'startDate': '2024-10-05',
-                    'endDate': '2024-11-05',
-                    'couponsLeft': '8',
-                    'type': 'BOGO',
-                  },
-                  {
-                    'imageUrl': 'https://via.placeholder.com/150',
-                    'storeName': 'Store 3',
-                    'promotionInfo': 'Free shipping on orders over \$50!',
-                    'location': '101 Maple Ave',
-                    'startDate': '2024-10-10',
-                    'endDate': '2024-11-10',
-                    'couponsLeft': '15',
-                    'type': 'Shipping',
-                  },
-                  {
-                    'imageUrl': 'https://via.placeholder.com/80',
-                    'storeName': 'Store Y',
-                    'promotionInfo': 'Limited time deal!',
-                    'location': '456 Elm St',
-                    'startDate': '2024-11-01', // Updated startDate format
-                    'endDate': '2024-11-30', // Updated endDate format
-                    'couponsLeft': '10',
-                    'type': 'Exclusive',
-                  },
-                ]),
+                _buildPromotionList(popularCoupons
+                    // [
+                    //   {
+                    //     'imageUrl': 'https://via.placeholder.com/150',
+                    //     'storeName': 'Store 1',
+                    //     'promotionInfo': '20% off on all items!',
+                    //     'location': '123 Main St',
+                    //     'startDate': '2024-10-01',
+                    //     'endDate': '2024-10-31',
+                    //     'couponsLeft': '5',
+                    //     'type': 'Discount',
+                    //   },
+                    //   {
+                    //     'imageUrl': 'https://via.placeholder.com/150',
+                    //     'storeName': 'Store 2',
+                    //     'promotionInfo': 'Buy one get one free!',
+                    //     'location': '789 Pine St',
+                    //     'startDate': '2024-10-05',
+                    //     'endDate': '2024-11-05',
+                    //     'couponsLeft': '8',
+                    //     'type': 'BOGO',
+                    //   },
+                    //   {
+                    //     'imageUrl': 'https://via.placeholder.com/150',
+                    //     'storeName': 'Store 3',
+                    //     'promotionInfo': 'Free shipping on orders over \$50!',
+                    //     'location': '101 Maple Ave',
+                    //     'startDate': '2024-10-10',
+                    //     'endDate': '2024-11-10',
+                    //     'couponsLeft': '15',
+                    //     'type': 'Shipping',
+                    //   },
+                    //   {
+                    //     'imageUrl': 'https://via.placeholder.com/80',
+                    //     'storeName': 'Store Y',
+                    //     'promotionInfo': 'Limited time deal!',
+                    //     'location': '456 Elm St',
+                    //     'startDate': '2024-11-01', // Updated startDate format
+                    //     'endDate': '2024-11-30', // Updated endDate format
+                    //     'couponsLeft': '10',
+                    //     'type': 'Exclusive',
+                    //   },
+                    // ],
+                    ),
 
               if (!_isSearching) SizedBox(height: 10),
 
@@ -334,72 +328,75 @@ class _RealHomePageState extends State<RealHomePage> {
               if (!_isSearching) SizedBox(height: 10),
 
               if (!_isSearching)
-                _buildPromotionList([
-                  {
-                    'imageUrl': 'https://via.placeholder.com/150',
-                    'storeName': 'Store A',
-                    'promotionInfo': '15% off on your first purchase!',
-                    'location': '202 Oak St',
-                    'startDate': '2024-10-15',
-                    'endDate': '2024-11-15',
-                    'couponsLeft': '12',
-                    'type': 'Discount',
-                  },
-                  {
-                    'imageUrl': 'https://via.placeholder.com/150',
-                    'storeName': 'Store B',
-                    'promotionInfo': 'Get a free gift with purchase!',
-                    'location': '303 Birch St',
-                    'startDate': '2024-10-20',
-                    'endDate': '2024-11-20',
-                    'couponsLeft': '20',
-                    'type': 'Gift',
-                  },
-                  {
-                    'imageUrl': 'https://via.placeholder.com/150',
-                    'storeName': 'Store C',
-                    'promotionInfo': '30% off on select items!',
-                    'location': '404 Cedar St',
-                    'startDate': '2024-10-25',
-                    'endDate': '2024-11-25',
-                    'couponsLeft': '7',
-                    'type': 'Discount',
-                  },
-                  {
-                    'imageUrl': 'https://via.placeholder.com/80',
-                    'storeName': 'Store Y',
-                    'promotionInfo': 'Limited time deal!',
-                    'location': '456 Elm St',
-                    'startDate': '2024-11-01', // Updated startDate format
-                    'endDate': '2024-11-30', // Updated endDate format
-                    'couponsLeft': '10',
-                    'type': 'Exclusive',
-                  },
-                ]),
+                _buildPromotionList(popularCoupons
+                    //   [
+                    //   {
+                    //     'imageUrl': 'https://via.placeholder.com/150',
+                    //     'storeName': 'Store A',
+                    //     'promotionInfo': '15% off on your first purchase!',
+                    //     'location': '202 Oak St',
+                    //     'startDate': '2024-10-15',
+                    //     'endDate': '2024-11-15',
+                    //     'couponsLeft': '12',
+                    //     'type': 'Discount',
+                    //   },
+                    //   {
+                    //     'imageUrl': 'https://via.placeholder.com/150',
+                    //     'storeName': 'Store B',
+                    //     'promotionInfo': 'Get a free gift with purchase!',
+                    //     'location': '303 Birch St',
+                    //     'startDate': '2024-10-20',
+                    //     'endDate': '2024-11-20',
+                    //     'couponsLeft': '20',
+                    //     'type': 'Gift',
+                    //   },
+                    //   {
+                    //     'imageUrl': 'https://via.placeholder.com/150',
+                    //     'storeName': 'Store C',
+                    //     'promotionInfo': '30% off on select items!',
+                    //     'location': '404 Cedar St',
+                    //     'startDate': '2024-10-25',
+                    //     'endDate': '2024-11-25',
+                    //     'couponsLeft': '7',
+                    //     'type': 'Discount',
+                    //   },
+                    //   {
+                    //     'imageUrl': 'https://via.placeholder.com/80',
+                    //     'storeName': 'Store Y',
+                    //     'promotionInfo': 'Limited time deal!',
+                    //     'location': '456 Elm St',
+                    //     'startDate': '2024-11-01', // Updated startDate format
+                    //     'endDate': '2024-11-30', // Updated endDate format
+                    //     'couponsLeft': '10',
+                    //     'type': 'Exclusive',
+                    //   },
+                    // ],
+                    ),
               SizedBox(height: 20),
-              if (!_isSearching)
-                _buildVerticalPromotionList([
-                  {
-                    'imageUrl': 'https://via.placeholder.com/80',
-                    'storeName': 'Store X',
-                    'promotionInfo': 'Special offer!',
-                    'location': '123 Main St',
-                    'startDate': '2024-12-01', // Updated startDate format
-                    'endDate': '2024-12-31', // Updated endDate format
-                    'couponsLeft': '5',
-                    'type': 'Discount',
-                  },
-                  {
-                    'imageUrl': 'https://via.placeholder.com/80',
-                    'storeName': 'Store Y',
-                    'promotionInfo': 'Limited time deal!',
-                    'location': '456 Elm St',
-                    'startDate': '2024-11-01', // Updated startDate format
-                    'endDate': '2024-11-30', // Updated endDate format
-                    'couponsLeft': '10',
-                    'type': 'Exclusive',
-                  },
-                ])
+              if (!_isSearching) _buildVerticalPromotionList(
+                  //   [
+                  //   {
+                  //     'imageUrl': 'https://via.placeholder.com/80',
+                  //     'storeName': 'Store X',
+                  //     'promotionInfo': 'Special offer!',
+                  //     'location': '123 Main St',
+                  //     'startDate': '2024-12-01', // Updated startDate format
+                  //     'endDate': '2024-12-31', // Updated endDate format
+                  //     'couponsLeft': '5',
+                  //     'type': 'Discount',
+                  //   },
+                  //   {
+                  //     'imageUrl': 'https://via.placeholder.com/80',
+                  //     'storeName': 'Store Y',
+                  //     'promotionInfo': 'Limited time deal!',
+                  //     'location': '456 Elm St',
+                  //     'startDate': '2024-11-01', // Updated startDate format
+                  //     'endDate': '2024-11-30', // Updated endDate format
+                  //     'couponsLeft': '10',
+                  //     'type': 'Exclusive',
+                  //   },
+                  // ],
+                  popularCoupons)
             ],
           ),
         ),
@@ -411,7 +408,7 @@ class _RealHomePageState extends State<RealHomePage> {
     });
   }
 
-  Widget _buildPromotionList(List<Map<String, String>> promotions) {
+  Widget _buildPromotionList(List<Map<String, dynamic>> promotions) {
     return Container(
       height: 150,
       child: ListView(
@@ -518,7 +515,7 @@ class _RealHomePageState extends State<RealHomePage> {
     );
   }
 
-  Widget _buildVerticalPromotionList(List<Map<String, String>> promotions) {
+  Widget _buildVerticalPromotionList(List<Map<String, dynamic>> promotions) {
     return Container(
       margin: EdgeInsets.only(top: 0),
       child: Column(
@@ -1169,7 +1166,7 @@ class _RealHomePageState extends State<RealHomePage> {
     );
   }
 
-  Widget _buildMenuList(List<Map<String, String>> menuItems) {
+  Widget _buildMenuList(List<Map<String, dynamic>> menuItems) {
     return Container(
       height: 165, // Adjust height as needed
       child: ListView.builder(
