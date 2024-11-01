@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_application_1/restaurant_page.dart';
 import 'package:flutter_application_1/coupon_detail_before.dart';
+import 'package:qr_flutter/qr_flutter.dart'; // Import QR code package
 
 class CouponDetail extends StatefulWidget {
   final String restaurantName;
@@ -30,6 +31,76 @@ class CouponDetail extends StatefulWidget {
 
 class _CouponDetailState extends State<CouponDetail> {
   String buttonText = "Collect";
+  bool _isQrVisible = false;
+  Duration _remainingTime = const Duration(hours: 0, minutes: 4, seconds: 59);
+
+  Widget showQr() {
+    return Column(
+      children: [
+        Center(
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Color(0xFFFBC079), // Desired border color
+                width: 7.0, // Desired border width
+              ),
+              borderRadius: BorderRadius.circular(10.0), // Rounded corners
+            ),
+            child: QrImageView(
+              data:
+                  'https://www.example.com/coupon', // Customize with actual data
+              version: QrVersions.auto,
+              size: 250.0,
+              backgroundColor: Colors.white,
+            ),
+          ),
+        ),
+        SizedBox(height: 10),
+        const Center(
+          child: Row(
+            mainAxisSize: MainAxisSize.min, // Minimum space
+            children: [
+              Icon(
+                Icons.access_time_filled,
+                color: Color(0xFF44A9A5),
+              ),
+              SizedBox(width: 8),
+              Text(
+                "TIME REMAINING",
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Color(0xFF44A9A5),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+        Center(
+          child: Text(
+            '${_remainingTime.inHours.toString().padLeft(2, '0')} : ${(_remainingTime.inMinutes % 60).toString().padLeft(2, '0')} : ${(_remainingTime.inSeconds % 60).toString().padLeft(2, '0')}',
+            style: const TextStyle(
+              fontSize: 25,
+              color: Colors.grey,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        const Center(
+          child: Text(
+            "Hours : Minutes : Seconds",
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.grey,
+              fontWeight: FontWeight.bold,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -212,7 +283,10 @@ class _CouponDetailState extends State<CouponDetail> {
                         child: ElevatedButton(
                           onPressed: () {
                             if (buttonText == "Use") {
-                              
+                              setState(() {
+                                _isQrVisible = true;
+                              });
+                              debugPrint('$_isQrVisible');
                             } else {
                               showDialog(
                                 context: context,
@@ -320,6 +394,17 @@ class _CouponDetailState extends State<CouponDetail> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: _isQrVisible,
+                        child: Column(
+                          children: [
+                            SizedBox(height: 20), // Add space before QR code
+                            showQr(), // Call your QR code display method here
+                            SizedBox(height: 10), // Add space after QR code
+                            // Add remaining time display here if needed
+                          ],
                         ),
                       ),
                     ],
