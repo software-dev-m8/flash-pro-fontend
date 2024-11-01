@@ -112,6 +112,8 @@ class PopularCouponsPage extends StatelessWidget {
         context,
         MaterialPageRoute(
           builder: (context) => CouponDetail(
+            couponId: '',
+            userId: '',
             // menuName: menuName,
             imageUrl: imageUrl,
             restaurantName: storeName,

@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     screens = [
-      RealHomePage(),
+      RealHomePage(token: widget.token, id: widget.id),
       MyCouponsPage(),
       AccountPage(
           token: widget.token, id: widget.id), // ส่ง token และ id ที่นี่

@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_application_1/restaurant_page.dart';
 import 'package:flutter_application_1/coupon_detail_before.dart';
+import 'package:http/http.dart' as http;
 
 class CouponDetail extends StatefulWidget {
+  final String userId;
+  final String couponId;
   final String restaurantName;
   final String discount;
   final String location;
@@ -22,6 +27,8 @@ class CouponDetail extends StatefulWidget {
     required this.imageUrl,
     required this.amount,
     required this.type,
+    required this.userId,
+    required this.couponId,
   });
 
   @override
@@ -30,6 +37,24 @@ class CouponDetail extends StatefulWidget {
 
 class _CouponDetailState extends State<CouponDetail> {
   String buttonText = "Collect";
+
+  Future<void> _collectCoupon(String userId, String couponId) async {
+    try {
+      final res = await http.post(
+          Uri.parse(
+            'https://flash.mupingdev.org/api/userCoupons/collectCoupon',
+          ),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: json.encode({
+            'userId': userId,
+            'couponId': couponId,
+          }));
+    } catch (e) {
+      debugPrint('$e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +76,7 @@ class _CouponDetailState extends State<CouponDetail> {
         child: Column(
           children: [
             AppBar(
-              title: Text(
+              title: const Text(
                 'Coupon Detail',
                 style: TextStyle(
                   fontSize: 20,
@@ -89,7 +114,7 @@ class _CouponDetailState extends State<CouponDetail> {
             right: 0,
             child: Container(
               height: containerHeight,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(40)),
               ),
@@ -99,25 +124,25 @@ class _CouponDetailState extends State<CouponDetail> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 90),
+                      const SizedBox(height: 90),
                       Text(
                         widget.restaurantName,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
                         ),
                       ),
-                      SizedBox(height: 5),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 5),
+                      const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Icon(Icons.discount, color: Color(0xFF44A9A5)),
-                          SizedBox(width: 5),
+                          const Icon(Icons.discount, color: Color(0xFF44A9A5)),
+                          const SizedBox(width: 5),
                           Text(
                             '${widget.discount}',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 20, color: Color(0xFF44A9A5)),
                           ),
                         ],
@@ -156,26 +181,26 @@ class _CouponDetailState extends State<CouponDetail> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Container(
+                          SizedBox(
                             width: 125,
                             height: 130,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                CircleAvatar(
+                                const CircleAvatar(
                                   radius: 30,
                                   backgroundColor: Color(0xFFF0F0F0),
                                   child: Icon(Icons.label,
                                       color: Color(0xFF44A9A5), size: 40),
                                 ),
-                                SizedBox(height: 15),
+                                const SizedBox(height: 15),
                                 Text(
                                   '${widget.amount} coupons left',
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                       fontSize: 12, color: Colors.grey),
                                 ),
                               ],
@@ -212,7 +237,6 @@ class _CouponDetailState extends State<CouponDetail> {
                         child: ElevatedButton(
                           onPressed: () {
                             if (buttonText == "Use") {
-                              
                             } else {
                               showDialog(
                                 context: context,
@@ -243,6 +267,8 @@ class _CouponDetailState extends State<CouponDetail> {
                                                   setState(() {
                                                     buttonText = "Use";
                                                   });
+                                                  _collectCoupon(widget.userId,
+                                                      widget.couponId);
                                                   Navigator.of(context).pop();
                                                 },
                                                 child: Text(
