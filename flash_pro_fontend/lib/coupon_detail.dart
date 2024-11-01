@@ -1,49 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_application_1/restaurant_page.dart';
+import 'package:flutter_application_1/coupon_detail_before.dart';
 
-class CouponDetail extends StatelessWidget {
+class CouponDetail extends StatefulWidget {
   final String restaurantName;
-  // final String menuName;
-  // final String originalPrice;
   final String discount;
   final String location;
-  final String startDate; // Added start date
-  final String endDate; // Added end date
+  final String startDate;
+  final String endDate;
   final String imageUrl;
   final String amount;
   final String type;
 
   CouponDetail({
     required this.restaurantName,
-    // required this.menuName,
-    // required this.originalPrice,
     required this.discount,
     required this.location,
-    required this.startDate, // Include start date in constructor
-    required this.endDate, // Include end date in constructor
+    required this.startDate,
+    required this.endDate,
     required this.imageUrl,
     required this.amount,
     required this.type,
   });
 
   @override
+  _CouponDetailState createState() => _CouponDetailState();
+}
+
+class _CouponDetailState extends State<CouponDetail> {
+  String buttonText = "Collect";
+
+  @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double containerHeight = screenHeight * 0.75;
 
-    // Calculate new price from original price and discount
-    // double originalPriceValue = double.tryParse(originalPrice.replaceAll(RegExp(r'[^0-9.]'), '')) ?? 0.0; // Clean the input
-    // double discountValue = double.tryParse(discount.replaceAll(RegExp(r'[^0-9.]'), '')) ?? 0.0; // Clean the input
-    // double newPrice = originalPriceValue - discountValue; // Calculate new price
-
-    // Get today's date
+    // Parse the end date and calculate the days left until expiration
     DateTime today = DateTime.now();
-    DateTime endDateValue = DateFormat('yyyy-MM-dd').parse(endDate); // Parse end date from string
-
-    // Calculate days left until expiration
+    DateTime endDateValue = DateFormat('yyyy-MM-dd').parse(widget.endDate);
     Duration difference = endDateValue.difference(today);
-    String daysLeft = difference.isNegative ? "Expired" : "${difference.inDays} days left until expiration"; // Handle expiration case
+    String daysLeft = difference.isNegative
+        ? "Expired"
+        : "${difference.inDays} days left until expiration";
 
     return Scaffold(
       backgroundColor: Color(0xFFFBC079),
@@ -102,7 +101,7 @@ class CouponDetail extends StatelessWidget {
                     children: [
                       SizedBox(height: 90),
                       Text(
-                        restaurantName,
+                        widget.restaurantName,
                         style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
@@ -110,14 +109,6 @@ class CouponDetail extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 5),
-                      // Text(
-                      //   menuName,
-                      //   style: TextStyle(
-                      //     fontSize: 20,
-                      //     fontWeight: FontWeight.bold,
-                      //     color: Colors.black,
-                      //   ),
-                      // ),
                       SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -125,8 +116,9 @@ class CouponDetail extends StatelessWidget {
                           Icon(Icons.discount, color: Color(0xFF44A9A5)),
                           SizedBox(width: 5),
                           Text(
-                            '$discount',
-                            style: TextStyle(fontSize: 20, color: Color(0xFF44A9A5)),
+                            '${widget.discount}',
+                            style: TextStyle(
+                                fontSize: 20, color: Color(0xFF44A9A5)),
                           ),
                         ],
                       ),
@@ -135,7 +127,7 @@ class CouponDetail extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            '$type',
+                            '${widget.type}',
                             style: TextStyle(fontSize: 18, color: Colors.grey),
                           ),
                         ],
@@ -147,67 +139,27 @@ class CouponDetail extends StatelessWidget {
                           Icon(Icons.location_on, color: Color(0xFFFBC079)),
                           SizedBox(width: 5),
                           Text(
-                            location,
+                            widget.location,
                             style: TextStyle(fontSize: 18, color: Colors.black),
                           ),
                         ],
                       ),
                       SizedBox(height: 10),
-
-                      // Start Date and End Date
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Icon(Icons.date_range, color: Color(0xFFFBC079)),
                           SizedBox(width: 5),
                           Text(
-                            '$startDate - $endDate', // Display start and end dates
+                            '${widget.startDate} - ${widget.endDate}',
                             style: TextStyle(fontSize: 18, color: Colors.black),
                           ),
                         ],
                       ),
                       SizedBox(height: 30),
-
-                      // Color Boxes
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          // Container(
-                          //   width: 110,
-                          //   height: 130,
-                          //   child: Column(
-                          //     mainAxisAlignment: MainAxisAlignment.start,
-                          //     children: [
-                          //       CircleAvatar(
-                          //         radius: 30,
-                          //         backgroundColor: Color(0xFFF0F0F0),
-                          //         child: Icon(Icons.shopping_basket, color: Color(0xFF44A9A5), size: 40),
-                          //       ),
-                          //       SizedBox(height: 15),
-                          //       Row(
-                          //         mainAxisAlignment: MainAxisAlignment.center,
-                          //         children: [
-                          //           Text(
-                          //             'Price: ',
-                          //             style: TextStyle(fontSize: 12, color: Colors.grey),
-                          //           ),
-                          //           // Text(
-                          //           //   '$originalPrice Baht',
-                          //           //   style: TextStyle(
-                          //           //     fontSize: 12,
-                          //           //     color: Colors.grey,
-                          //           //     decoration: TextDecoration.lineThrough,
-                          //           //   ),
-                          //           // ),
-                          //         ],
-                          //       ),
-                          //       // Text(
-                          //       //   '${newPrice.toStringAsFixed(2)} Baht', // Display calculated new price
-                          //       //   style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xFFD04040)),
-                          //       // ),
-                          //     ],
-                          //   ),
-                          // ),
                           Container(
                             width: 125,
                             height: 130,
@@ -217,12 +169,14 @@ class CouponDetail extends StatelessWidget {
                                 CircleAvatar(
                                   radius: 30,
                                   backgroundColor: Color(0xFFF0F0F0),
-                                  child: Icon(Icons.label, color: Color(0xFF44A9A5), size: 40),
+                                  child: Icon(Icons.label,
+                                      color: Color(0xFF44A9A5), size: 40),
                                 ),
                                 SizedBox(height: 15),
                                 Text(
-                                  '$amount coupons left',
-                                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                                  '${widget.amount} coupons left',
+                                  style: TextStyle(
+                                      fontSize: 12, color: Colors.grey),
                                 ),
                               ],
                             ),
@@ -236,13 +190,15 @@ class CouponDetail extends StatelessWidget {
                                 CircleAvatar(
                                   radius: 30,
                                   backgroundColor: Color(0xFFF0F0F0),
-                                  child: Icon(Icons.access_time_filled, color: Color(0xFF44A9A5), size: 40),
+                                  child: Icon(Icons.access_time_filled,
+                                      color: Color(0xFF44A9A5), size: 40),
                                 ),
                                 SizedBox(height: 15),
                                 Center(
                                   child: Text(
-                                    daysLeft, // Display days left until expiration
-                                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                                    daysLeft,
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.grey),
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
@@ -252,101 +208,112 @@ class CouponDetail extends StatelessWidget {
                         ],
                       ),
                       SizedBox(height: 20),
-
                       Center(
                         child: ElevatedButton(
-onPressed: () {
-  // Show the confirmation dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return AlertDialog(
-        backgroundColor: Colors.white, // Set the background color to white
-        content: Text(
-          "When you collect the coupon, you'll have 2 hours to use it.",
-          textAlign: TextAlign.center, // Center align the text itself
-          style: TextStyle(
-            fontWeight: FontWeight.bold, // Make the text bold
-            fontSize: 18, // Increase font size (adjust as needed)
-          ),
-        ),
-        actions: <Widget>[
-          Center( // Center the Column horizontally
-            child: Column(
-              mainAxisSize: MainAxisSize.min, // Ensure the column takes only as much space as needed
-              children: [
-                // Agree Button
-                Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xFFFBC079), // Sausage color (adjust as needed)
-                    borderRadius: BorderRadius.circular(30), // Rounded corners
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      // Handle agree action
-                      Navigator.of(context).popUntil((route) => route.isFirst); // Go back to the previous page
-                      // Navigator.of(context).pop(); // Close the dialog
-                      print('User agreed to the coupon terms');
-                    },
-                    child: Text(
-                      'Agree',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold, // Make the button text bold
-                        fontSize: 18, // Increase button text size (adjust as needed)
-                        color: Colors.black, // Text color
-                      ),
-                    ),
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40), // Add padding for height and width
-                      minimumSize: Size(200, 30), // Increased minimum button width
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10), // Add space between buttons
-                // Back Button
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey, // Make it the same color as the Agree button
-                    borderRadius: BorderRadius.circular(30), // Rounded corners
-                  ),
-                  child: TextButton(
-                    onPressed: () {
-                      // Handle back action
-                      Navigator.of(context).pop(); // Close the dialog
-                    },
-                    child: Text(
-                      'Back',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold, // Make the button text bold
-                        fontSize: 18, // Increase button text size (adjust as needed)
-                        color: Colors.white, // Text color
-                      ),
-                    ),
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 40), // Add padding for height and width
-                      minimumSize: Size(200, 30), // Increased minimum button width
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
-    },
-  );
-},
-
-
+                          onPressed: () {
+                            if (buttonText == "Use") {
+                              
+                            } else {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    backgroundColor: Colors.white,
+                                    content: Text(
+                                      "When you collect the coupon, you'll have 2 hours to use it.",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                    ),
+                                    actions: <Widget>[
+                                      Center(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: Color(0xFFFBC079),
+                                                borderRadius:
+                                                    BorderRadius.circular(30),
+                                              ),
+                                              child: TextButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    buttonText = "Use";
+                                                  });
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Text(
+                                                  'Agree',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                style: TextButton.styleFrom(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 40),
+                                                  minimumSize: Size(200, 30),
+                                                ),
+                                              ),
+                                            ),
+                                            SizedBox(height: 10),
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey,
+                                                borderRadius:
+                                                    BorderRadius.circular(30),
+                                              ),
+                                              child: TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Text(
+                                                  'Back',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 18,
+                                                    color: Colors.white,
+                                                  ),
+                                                ),
+                                                style: TextButton.styleFrom(
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 10,
+                                                      horizontal: 40),
+                                                  minimumSize: Size(200, 30),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                          },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xFFFBC079),
-                            padding: EdgeInsets.symmetric(horizontal: 65, vertical: 10),
+                            backgroundColor: buttonText == "Use"
+                                ? Colors.white
+                                : Color(0xFFFBC079),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 65, vertical: 10),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(50),
+                              side: BorderSide(
+                                  color: buttonText == "Use"
+                                      ? Color(0xFFFBC079)
+                                      : Colors.transparent,
+                                  width: 2),
                             ),
                           ),
                           child: Text(
-                            'Collect',
+                            buttonText,
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 25,
@@ -370,45 +337,45 @@ onPressed: () {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
-                  image: NetworkImage(imageUrl),
+                  image: NetworkImage(widget.imageUrl),
                   fit: BoxFit.cover,
                 ),
               ),
             ),
           ),
           Positioned(
-  top: 230,
-  left: 270,
-  child: Container(
-    width: 160,
-    height: 45,
-    child: TextButton(
-      onPressed: () {
-        Navigator.push(
-  context,
-  MaterialPageRoute(
-    builder: (context) => Restaurant(restaurantName: restaurantName), // Pass the restaurant name here
-  ),
-);
-
-      },
-      child: Row(
-        children: [
-          Text(
-            'view restaurant',
-            style: TextStyle(color: Colors.grey),
+            top: 230,
+            left: 270,
+            child: Container(
+              width: 160,
+              height: 45,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Restaurant(
+                          restaurantName: widget
+                              .restaurantName), // Pass the restaurant name here
+                    ),
+                  );
+                },
+                child: Row(
+                  children: [
+                    Text(
+                      'view restaurant',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    Icon(
+                      Icons.chevron_right,
+                      size: 30,
+                      color: Colors.grey,
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
-          Icon(
-            Icons.chevron_right,
-            size: 30,
-            color: Colors.grey,
-          ),
-        ],
-      ),
-    ),
-  ),
-),
-
         ],
       ),
     );
